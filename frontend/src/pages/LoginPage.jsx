@@ -5,12 +5,19 @@ import toast from 'react-hot-toast';
 import { Brain, Eye, EyeOff, Loader } from 'lucide-react';
 
 const LoginPage = () => {
+<<<<<<< HEAD
   const { login, guestLogin } = useAuth();
+=======
+  const { login } = useAuth();
+>>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: '', password: '' });
   const [showPwd, setShowPwd] = useState(false);
   const [loading, setLoading] = useState(false);
+<<<<<<< HEAD
   const [guestLoading, setGuestLoading] = useState(false);
+=======
+>>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,6 +35,7 @@ const LoginPage = () => {
     }
   };
 
+<<<<<<< HEAD
   const handleGuestLogin = async () => {
     setGuestLoading(true);
     try {
@@ -41,6 +49,11 @@ const LoginPage = () => {
     } finally {
       setGuestLoading(false);
     }
+=======
+  const fillDemo = () => {
+    setForm({ email: 'demo@example.com', password: 'demo123' });
+    toast('Demo credentials filled! Create this account first via Register.', { icon: 'ℹ️' });
+>>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
   };
 
   return (
@@ -96,6 +109,7 @@ const LoginPage = () => {
           </form>
 
           <div className="mt-4 pt-4 border-t border-gray-100">
+<<<<<<< HEAD
             <button 
               onClick={handleGuestLogin}
               disabled={guestLoading || loading}
@@ -103,6 +117,11 @@ const LoginPage = () => {
             >
               {guestLoading ? <Loader size={16} className="animate-spin" /> : null}
               {guestLoading ? 'Entering as Guest...' : 'Try Guest Login'}
+=======
+            <button onClick={fillDemo}
+              className="w-full py-2.5 text-sm text-blue-600 hover:text-blue-700 font-medium hover:bg-blue-50 rounded-lg transition-colors">
+              Try with Demo Account
+>>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
             </button>
           </div>
         </div>

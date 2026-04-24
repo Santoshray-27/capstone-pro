@@ -3,6 +3,7 @@
  * Handles user registration, login, profile management
  */
 
+<<<<<<< HEAD
 const mongoose = require('mongoose');
 const User = require('../models/User.model');
 const { generateToken } = require('../utils/generateToken');
@@ -16,13 +17,21 @@ const checkDB = () => {
   }
 };
 
+=======
+const User = require('../models/User.model');
+const { generateToken } = require('../utils/generateToken');
+
+>>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
 // ========================
 // @route  POST /api/auth/register
 // @access Public
 // ========================
 const register = async (req, res, next) => {
   try {
+<<<<<<< HEAD
     checkDB();
+=======
+>>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
     const { name, email, password, role = 'jobseeker' } = req.body;
 
     // Validate required fields
@@ -71,7 +80,10 @@ const register = async (req, res, next) => {
 // ========================
 const login = async (req, res, next) => {
   try {
+<<<<<<< HEAD
     checkDB();
+=======
+>>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -127,6 +139,7 @@ const login = async (req, res, next) => {
 };
 
 // ========================
+<<<<<<< HEAD
 // @route  POST /api/auth/guest-login
 // @access Public
 // ========================
@@ -172,6 +185,8 @@ const guestLogin = async (req, res, next) => {
 };
 
 // ========================
+=======
+>>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
 // @route  GET /api/auth/me
 // @access Private
 // ========================
@@ -267,4 +282,8 @@ const changePassword = async (req, res, next) => {
   }
 };
 
+<<<<<<< HEAD
 module.exports = { register, login, guestLogin, getMe, updateProfile, changePassword };
+=======
+module.exports = { register, login, getMe, updateProfile, changePassword };
+>>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2

@@ -21,6 +21,7 @@ export const AuthProvider = ({ children }) => {
       const storedToken = localStorage.getItem('token');
       if (storedToken) {
         try {
+<<<<<<< HEAD
           // Use a timeout for the initial auth check to avoid infinite loading
           const authPromise = authAPI.getMe();
           const timeoutPromise = new Promise((_, reject) => 
@@ -30,12 +31,19 @@ export const AuthProvider = ({ children }) => {
           const { data } = await Promise.race([authPromise, timeoutPromise]);
           
           if (data?.success) {
+=======
+          const { data } = await authAPI.getMe();
+          if (data.success) {
+>>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
             setUser(data.user);
           } else {
             clearAuth();
           }
         } catch (error) {
+<<<<<<< HEAD
           console.error('Auth initialization failed:', error);
+=======
+>>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
           clearAuth();
         }
       }
@@ -81,6 +89,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   // ========================
+<<<<<<< HEAD
   // Guest Login
   // ========================
   const guestLogin = async (role = 'jobseeker') => {
@@ -95,6 +104,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   // ========================
+=======
+>>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
   // Logout
   // ========================
   const logout = useCallback(() => {
@@ -119,7 +130,10 @@ export const AuthProvider = ({ children }) => {
     isAdmin: user?.role === 'admin',
     register,
     login,
+<<<<<<< HEAD
     guestLogin,
+=======
+>>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
     logout,
     updateUser
   };

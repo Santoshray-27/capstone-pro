@@ -11,7 +11,11 @@ import {
 } from 'recharts';
 import {
   Upload, Brain, FileText, Briefcase, MessageSquare, ArrowRight,
+<<<<<<< HEAD
   TrendingUp, Award, Target, Clock, CheckCircle2, AlertTriangle
+=======
+  TrendingUp, Award, Target, Clock, CheckCircle2
+>>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
 } from 'lucide-react';
 import ScoreCircle from '../components/common/ScoreCircle';
 import LoadingSpinner from '../components/common/LoadingSpinner';
@@ -21,16 +25,25 @@ const DashboardPage = () => {
   const { user } = useAuth();
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
+<<<<<<< HEAD
   const [error, setError] = useState(null);
+=======
+>>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
         const { data } = await dashboardAPI.getStats();
         if (data.success) setStats(data.stats);
+<<<<<<< HEAD
         else setError('Failed to load dashboard data.');
       } catch (err) {
         setError(err.response?.data?.message || 'Could not connect to server. Make sure the backend is running.');
+=======
+      } catch (err) {
+        // Use mock data if API unavailable
+        setStats(getMockStats());
+>>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
       } finally {
         setLoading(false);
       }
@@ -38,6 +51,7 @@ const DashboardPage = () => {
     fetchStats();
   }, []);
 
+<<<<<<< HEAD
   if (loading) return <LoadingSpinner text="Loading your dashboard..." />;
 
   if (error) return (
@@ -50,6 +64,31 @@ const DashboardPage = () => {
       </button>
     </div>
   );
+=======
+  const getMockStats = () => ({
+    overview: { totalResumes: 3, totalAnalyses: 5, totalInterviews: 2, avgAtsScore: 74, maxAtsScore: 89, profileCompletion: 65 },
+    latestAnalysis: { score: 89, date: new Date(), resumeTitle: 'Software Engineer Resume', strengths: ['Strong technical skills', 'Good formatting', 'Quantified achievements'], suggestions: ['Add more keywords', 'Expand summary', 'Add LinkedIn link'] },
+    scoreTrend: [
+      { date: '2024-01', score: 52 }, { date: '2024-02', score: 61 }, { date: '2024-03', score: 68 },
+      { date: '2024-04', score: 74 }, { date: '2024-05', score: 82 }, { date: '2024-06', score: 89 }
+    ],
+    topSkills: [
+      { skill: 'React', count: 3 }, { skill: 'Node.js', count: 2 }, { skill: 'Python', count: 3 },
+      { skill: 'MongoDB', count: 2 }, { skill: 'AWS', count: 1 }
+    ],
+    recentInterviews: [
+      { _id: '1', jobTitle: 'Senior Developer', overallScore: 78, completedAt: new Date() },
+      { _id: '2', jobTitle: 'Full Stack Engineer', overallScore: 85, completedAt: new Date() }
+    ],
+    quickActions: [
+      { label: 'Upload Resume', link: '/upload', done: true },
+      { label: 'Analyze Resume', link: '/analysis', done: true },
+      { label: 'Practice Interview', link: '/interview', done: false }
+    ]
+  });
+
+  if (loading) return <LoadingSpinner text="Loading your dashboard..." />;
+>>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
 
   const overview = stats?.overview || {};
 

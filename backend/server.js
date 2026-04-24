@@ -22,7 +22,10 @@ const interviewRoutes = require('./routes/interview.routes');
 const feedbackRoutes = require('./routes/feedback.routes');
 const dashboardRoutes = require('./routes/dashboard.routes');
 const recruiterRoutes = require('./routes/recruiter.routes');
+<<<<<<< HEAD
 const screeningRoutes = require('./routes/screening.routes');
+=======
+>>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
 
 // Import error handling middleware
 const errorHandler = require('./middleware/errorHandler');
@@ -97,7 +100,10 @@ app.use('/api/interviews', interviewRoutes);
 app.use('/api/feedback', feedbackRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/recruiter', recruiterRoutes);
+<<<<<<< HEAD
 app.use('/api/screening', screeningRoutes);
+=======
+>>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
 
 // ========================
 // Serve React Frontend (in production / sandbox)
