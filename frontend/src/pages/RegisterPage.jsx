@@ -5,19 +5,12 @@ import toast from 'react-hot-toast';
 import { Brain, Eye, EyeOff, Loader, User, Briefcase } from 'lucide-react';
 
 const RegisterPage = () => {
-<<<<<<< HEAD
   const { register, guestLogin } = useAuth();
-=======
-  const { register } = useAuth();
->>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
   const navigate = useNavigate();
   const [form, setForm] = useState({ name: '', email: '', password: '', role: 'jobseeker' });
   const [showPwd, setShowPwd] = useState(false);
   const [loading, setLoading] = useState(false);
-<<<<<<< HEAD
   const [guestLoading, setGuestLoading] = useState(false);
-=======
->>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,7 +31,6 @@ const RegisterPage = () => {
     }
   };
 
-<<<<<<< HEAD
   const handleGuestLogin = async () => {
     setGuestLoading(true);
     try {
@@ -53,9 +45,6 @@ const RegisterPage = () => {
       setGuestLoading(false);
     }
   };
-
-=======
->>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-white flex items-center justify-center p-4">
       <div className="w-full max-w-md">
@@ -122,8 +111,6 @@ const RegisterPage = () => {
               {loading ? <><Loader size={18} className="animate-spin" /> Creating account...</> : 'Create Account'}
             </button>
           </form>
-<<<<<<< HEAD
-
           <div className="mt-4 pt-4 border-t border-gray-100">
             <button 
               onClick={handleGuestLogin}
@@ -134,8 +121,6 @@ const RegisterPage = () => {
               {guestLoading ? 'Entering as Guest...' : 'Try Guest Login'}
             </button>
           </div>
-=======
->>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
         </div>
 
         <p className="text-center mt-6 text-gray-500 text-sm">

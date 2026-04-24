@@ -9,22 +9,15 @@ import { useAuth } from '../../context/AuthContext';
 import {
   LayoutDashboard, Upload, Brain, FileText, Briefcase,
   MessageSquare, User, LogOut, Menu, X, Star, Users,
-<<<<<<< HEAD
   ChevronRight, Bell, Search, Shield, Crosshair
-=======
-  ChevronRight, Bell, Search
->>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
 } from 'lucide-react';
 
 const navItems = [
   { label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
   { label: 'Upload Resume', icon: Upload, path: '/upload' },
   { label: 'Analysis', icon: Brain, path: '/analysis' },
-<<<<<<< HEAD
   { label: 'Resume Screening', icon: Shield, path: '/screening' },
   { label: 'Skill Gap Analyzer', icon: Crosshair, path: '/skill-gap' },
-=======
->>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
   { label: 'Resume Builder', icon: FileText, path: '/builder' },
   { label: 'Job Matches', icon: Briefcase, path: '/jobs' },
   { label: 'Interview Prep', icon: MessageSquare, path: '/interview' },

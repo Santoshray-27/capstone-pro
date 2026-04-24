@@ -22,11 +22,8 @@ import InterviewSessionPage from './pages/InterviewSessionPage';
 import ProfilePage from './pages/ProfilePage';
 import RecruiterPage from './pages/RecruiterPage';
 import FeedbackPage from './pages/FeedbackPage';
-<<<<<<< HEAD
 import ScreeningPage from './pages/ScreeningPage';
 import SkillGapPage from './pages/SkillGapPage';
-=======
->>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
 
 // Layout
 import Layout from './components/common/Layout';
@@ -101,15 +98,12 @@ const AppRoutes = () => {
       <Route path="/feedback" element={
         <ProtectedRoute><Layout><FeedbackPage /></Layout></ProtectedRoute>
       } />
-<<<<<<< HEAD
       <Route path="/screening" element={
         <ProtectedRoute><Layout><ScreeningPage /></Layout></ProtectedRoute>
       } />
       <Route path="/skill-gap" element={
         <ProtectedRoute><Layout><SkillGapPage /></Layout></ProtectedRoute>
       } />
-=======
->>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
       <Route path="/recruiter" element={
         <ProtectedRoute requiredRole="recruiter"><Layout><RecruiterPage /></Layout></ProtectedRoute>
       } />

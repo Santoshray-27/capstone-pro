@@ -56,10 +56,7 @@ api.interceptors.response.use(
 export const authAPI = {
   register: (data) => api.post('/auth/register', data),
   login: (data) => api.post('/auth/login', data),
-<<<<<<< HEAD
   guestLogin: (data) => api.post('/auth/guest-login', data),
-=======
->>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
   getMe: () => api.get('/auth/me'),
   updateProfile: (data) => api.put('/auth/profile', data),
   changePassword: (data) => api.put('/auth/change-password', data),
@@ -135,7 +132,6 @@ export const recruiterAPI = {
   searchCandidates: (params) => api.get('/recruiter/candidates', { params }),
 };
 
-<<<<<<< HEAD
 // ========================
 // Screening & Skill Gap API
 // ========================
@@ -145,6 +141,4 @@ export const screeningAPI = {
   getResumes: () => api.get('/screening/resumes'),
 };
 
-=======
->>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
 export default api;
