@@ -1,7 +1,6 @@
 /**
  * AI Service Module
  * Handles all AI operations: resume analysis, job matching, interview Q&A
-<<<<<<< HEAD
  * Supports both Gemini and OpenAI with graceful fallback to rule-based analysis
  */
 
@@ -9,37 +8,7 @@
 
 // ========================
 // Gemini API Call (using node-fetch)
-=======
- * Supports both Gemini and OpenAI with graceful fallback to mock data
- */
 
-const https = require('https');
-
-// ========================
-// Helper: Make HTTP request
-// ========================
-const makeRequest = (url, options, body) => {
-  return new Promise((resolve, reject) => {
-    const req = https.request(url, options, (res) => {
-      let data = '';
-      res.on('data', (chunk) => { data += chunk; });
-      res.on('end', () => {
-        try {
-          resolve(JSON.parse(data));
-        } catch (e) {
-          resolve(data);
-        }
-      });
-    });
-    req.on('error', reject);
-    if (body) req.write(JSON.stringify(body));
-    req.end();
-  });
-};
-
-// ========================
-// Gemini API Call
->>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
 // ========================
 const callGemini = async (prompt) => {
   const apiKey = process.env.GEMINI_API_KEY;
@@ -47,7 +16,6 @@ const callGemini = async (prompt) => {
     throw new Error('GEMINI_API_KEY not configured');
   }
 
-<<<<<<< HEAD
   const fetch = require('node-fetch');
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
@@ -80,38 +48,6 @@ const callGemini = async (prompt) => {
   const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
   if (!text) throw new Error('Gemini returned empty response');
   return text;
-=======
-  const url = new URL(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`);
-
-  const body = {
-    contents: [{
-      parts: [{ text: prompt }]
-    }],
-    generationConfig: {
-      temperature: 0.4,
-      topK: 32,
-      topP: 1,
-      maxOutputTokens: 4096,
-    }
-  };
-
-  const options = {
-    hostname: url.hostname,
-    path: url.pathname + url.search,
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-
-  const response = await makeRequest(url.toString().replace('https://', ''), options, body);
-
-  if (response.error) {
-    throw new Error(response.error.message || 'Gemini API error');
-  }
-
-  return response.candidates?.[0]?.content?.parts?.[0]?.text || '';
->>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
 };
 
 // ========================
@@ -123,10 +59,6 @@ const callOpenAI = async (prompt) => {
     throw new Error('OPENAI_API_KEY not configured');
   }
 
-<<<<<<< HEAD
-=======
-  // Use node-fetch for OpenAI
->>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
   const fetch = require('node-fetch');
 
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -140,7 +72,6 @@ const callOpenAI = async (prompt) => {
       messages: [
         {
           role: 'system',
-<<<<<<< HEAD
           content: 'You are an expert HR consultant and ATS resume specialist. Always respond with valid JSON only.'
         },
         { role: 'user', content: prompt }
@@ -149,18 +80,6 @@ const callOpenAI = async (prompt) => {
       max_tokens: 4096
     }),
     timeout: 30000
-=======
-          content: 'You are an expert HR consultant and ATS resume specialist. Always respond with valid JSON.'
-        },
-        {
-          role: 'user',
-          content: prompt
-        }
-      ],
-      temperature: 0.4,
-      max_tokens: 4096
-    })
->>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
   });
 
   const data = await response.json();
@@ -179,22 +98,15 @@ const callAI = async (prompt) => {
   // Try Gemini first
   try {
     const result = await callGemini(prompt);
-<<<<<<< HEAD
     console.log('✅ AI Response from Gemini');
     return { text: result, model: 'gemini' };
   } catch (geminiError) {
     console.warn('⚠️  Gemini failed, trying OpenAI:', geminiError.message);
-=======
-    return { text: result, model: 'gemini' };
-  } catch (geminiError) {
-    console.warn('Gemini failed, trying OpenAI:', geminiError.message);
->>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
   }
 
   // Try OpenAI
   try {
     const result = await callOpenAI(prompt);
-<<<<<<< HEAD
     console.log('✅ AI Response from OpenAI');
     return { text: result, model: 'openai' };
   } catch (openaiError) {
@@ -202,14 +114,6 @@ const callAI = async (prompt) => {
   }
 
   // Return null to indicate we need rule-based fallback
-=======
-    return { text: result, model: 'openai' };
-  } catch (openaiError) {
-    console.warn('OpenAI failed, using mock data:', openaiError.message);
-  }
-
-  // Return null to indicate we need mock data
->>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
   return null;
 };
 
@@ -321,7 +225,6 @@ const getMockAnalysis = (resumeText) => {
 const analyzeResume = async (resumeText, jobTitle = '', jobDescription = '') => {
   const startTime = Date.now();
 
-<<<<<<< HEAD
   // Send more of the resume for better unique analysis
   const resumeExcerpt = resumeText.substring(0, 6000);
 
@@ -346,19 +249,6 @@ Instructions:
 - ATS score must reflect actual keyword density and formatting of THIS document
 
 Return ONLY valid JSON (no markdown, no code blocks) with this exact structure:
-=======
-  const prompt = `
-You are an expert ATS (Applicant Tracking System) analyst and career coach.
-Analyze this resume comprehensively and return a JSON response.
-
-RESUME TEXT:
-${resumeText.substring(0, 3000)}
-
-${jobTitle ? `TARGET JOB: ${jobTitle}` : ''}
-${jobDescription ? `JOB DESCRIPTION: ${jobDescription.substring(0, 1000)}` : ''}
-
-Return ONLY valid JSON with this exact structure:
->>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
 {
   "atsScore": <number 0-100>,
   "scoreBreakdown": {
@@ -369,7 +259,6 @@ Return ONLY valid JSON with this exact structure:
     "education": <number 0-100>,
     "overall": <number 0-100>
   },
-<<<<<<< HEAD
   "strengths": ["specific strength referencing actual resume content", ...],
   "weaknesses": ["specific weakness based on actual resume", ...],
   "missingSkills": ["skill not found in resume but needed", ...],
@@ -383,21 +272,6 @@ Return ONLY valid JSON with this exact structure:
   },
   "keywordsFound": ["keyword actually found in resume", ...],
   "keywordsMissing": ["important keyword NOT in resume", ...],
-=======
-  "strengths": ["strength1", "strength2", "strength3", "strength4", "strength5"],
-  "weaknesses": ["weakness1", "weakness2", "weakness3"],
-  "missingSkills": ["skill1", "skill2", "skill3", "skill4"],
-  "suggestions": ["suggestion1", "suggestion2", "suggestion3", "suggestion4", "suggestion5"],
-  "sectionFeedback": {
-    "summary": "feedback text",
-    "experience": "feedback text",
-    "skills": "feedback text",
-    "education": "feedback text",
-    "formatting": "feedback text"
-  },
-  "keywordsFound": ["keyword1", "keyword2"],
-  "keywordsMissing": ["keyword1", "keyword2"],
->>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
   "keywordDensity": <number 0-100>,
   "industryMatch": <number 0-100>
 }
@@ -407,22 +281,14 @@ Return ONLY valid JSON with this exact structure:
     const aiResult = await callAI(prompt);
 
     if (!aiResult) {
-<<<<<<< HEAD
       // Use rule-based fallback with actual resume content
-=======
-      // Use mock data as fallback
->>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
       const mockData = getMockAnalysis(resumeText);
       return { ...mockData, processingTime: Date.now() - startTime };
     }
 
     const parsed = parseAIJson(aiResult.text);
-<<<<<<< HEAD
     if (!parsed || typeof parsed.atsScore !== 'number') {
       console.warn('Failed to parse AI JSON, using rule-based fallback');
-=======
-    if (!parsed || !parsed.atsScore) {
->>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
       const mockData = getMockAnalysis(resumeText);
       return { ...mockData, processingTime: Date.now() - startTime };
     }
@@ -775,7 +641,6 @@ const getMockEvaluation = (answer) => {
   };
 };
 
-<<<<<<< HEAD
 // ========================
 // 5. AI RESUME SCREENING
 // ========================
@@ -1017,17 +882,11 @@ const getMockSkillGap = (currentSkills = [], targetRole, experienceLevel) => {
   };
 };
 
-=======
->>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
 module.exports = {
   analyzeResume,
   getJobRecommendations,
   generateInterviewQuestions,
-<<<<<<< HEAD
   evaluateInterviewAnswer,
   screenResume,
   analyzeSkillGap
-=======
-  evaluateInterviewAnswer
->>>>>>> c93f3bf6b7e410f6c3efdff9c53ce3ba77b7c3a2
 };
