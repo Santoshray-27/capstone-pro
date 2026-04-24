@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Environment variables
+.env
+backend/.env
+frontend/.env
+frontend/.env.local
+
+# Build output
+frontend/dist/
+backend/dist/
+
+# Logs
+logs/
+*.log
+backend/logs/
+
+# Uploaded files
+backend/uploads/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# PM2
+.pm2/
+
+# Wrangler / Cloudflare
+.wrangler/
