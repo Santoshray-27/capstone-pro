@@ -39,7 +39,7 @@ const createSession = async (req, res, next) => {
 
     // Generate questions via AI
     const generatedQuestions = await generateInterviewQuestions(
-      jobTitle, skills, experienceLevel, questionCount
+      jobTitle, skills, experienceLevel, questionCount, interviewType
     );
 
     // Create interview session
@@ -54,6 +54,8 @@ const createSession = async (req, res, next) => {
       interviewType,
       questions: generatedQuestions.map(q => ({
         question: q.question,
+        questionFormat: q.format === 'mcq' ? 'mcq' : 'open-ended',
+        options: q.options || [],
         type: q.type || 'behavioral',
         difficulty: q.difficulty || 'medium',
         expectedAnswer: q.expectedAnswer || '',
@@ -63,7 +65,7 @@ const createSession = async (req, res, next) => {
       totalQuestions: generatedQuestions.length,
       status: 'in-progress',
       startedAt: new Date(),
-      aiModel: 'mock'
+      aiModel: 'gemini' // Use valid enum value
     });
 
     res.status(201).json({
@@ -106,10 +108,12 @@ const submitAnswer = async (req, res, next) => {
       question.question,
       answer,
       interview.jobTitle,
-      question.expectedAnswer
+      question.expectedAnswer,
+      question.questionFormat
     );
 
     // Update the specific question
+    interview.aiModel = evaluation.aiModel || interview.aiModel; // Track latest model used
     interview.questions[questionIndex].userAnswer = answer;
     interview.questions[questionIndex].isAnswered = true;
     interview.questions[questionIndex].evaluation = {

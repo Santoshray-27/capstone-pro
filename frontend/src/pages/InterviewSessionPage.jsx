@@ -46,8 +46,12 @@ const InterviewSessionPage = () => {
   };
 
   const submitAnswer = async () => {
-    if (!answer.trim() || answer.trim().length < 5) {
+    const question = session.questions[currentQ];
+    if (question.questionFormat !== 'mcq' && (!answer.trim() || answer.trim().length < 5)) {
       return toast.error('Please provide a meaningful answer');
+    }
+    if (question.questionFormat === 'mcq' && !answer) {
+      return toast.error('Please select an option');
     }
     setSubmitting(true);
     try {
@@ -113,7 +117,7 @@ const InterviewSessionPage = () => {
       <div className="max-w-2xl mx-auto space-y-6">
         <div className="card text-center">
           <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <Award size={32} className="text-white" />
+            <Award size={22} className="text-white" />
           </div>
           <h2 className="text-2xl font-black text-gray-900 mb-2">Interview Complete!</h2>
           <p className="text-gray-500 mb-6">Here's your performance summary</p>
@@ -127,7 +131,7 @@ const InterviewSessionPage = () => {
               summary.readinessLevel === 'excellent' ? 'bg-green-100 text-green-700' :
               summary.readinessLevel === 'good' ? 'bg-blue-100 text-blue-700' : 'bg-yellow-100 text-yellow-700'
             }`}>
-              <CheckCircle size={16} /> {summary.readinessLevel?.replace('-', ' ').toUpperCase()}
+              <CheckCircle size={18} /> {summary.readinessLevel?.replace('-', ' ').toUpperCase()}
             </div>
           )}
 
@@ -181,12 +185,12 @@ const InterviewSessionPage = () => {
     <div className="max-w-3xl mx-auto space-y-4">
       {/* Header */}
       <div className="card">
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-3">
           <div>
             <h2 className="font-black text-gray-900">{session.jobTitle}</h2>
             <p className="text-gray-500 text-sm">{session.company || 'Practice Session'} · {session.experienceLevel}</p>
           </div>
-          <div className="text-right">
+          <div className="sm:text-right flex items-center sm:block gap-2">
             <p className="text-sm font-semibold text-gray-900">
               {session.questions.filter(q => q.isAnswered).length} / {session.totalQuestions}
             </p>
@@ -288,13 +292,13 @@ const InterviewSessionPage = () => {
             <div className="flex gap-2">
               {currentQ < session.questions.length - 1 && (
                 <button onClick={nextQuestion} className="btn-primary flex items-center gap-2">
-                  Next Question <ChevronRight size={16} />
+                  Next Question <ChevronRight size={18} />
                 </button>
               )}
               {allAnswered && !completedData && (
                 <button onClick={completeSession} disabled={completing}
                   className="btn-primary bg-green-600 hover:bg-green-700 flex items-center gap-2">
-                  {completing ? <Loader size={16} className="animate-spin" /> : <Award size={16} />}
+                  {completing ? <Loader size={16} className="animate-spin" /> : <Award size={18} />}
                   Complete Interview
                 </button>
               )}
@@ -305,29 +309,50 @@ const InterviewSessionPage = () => {
           !question.isAnswered && (
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Your Answer</label>
-              <textarea
-                className="input resize-none text-sm"
-                rows={6}
-                placeholder="Type your answer here... Use the STAR method: Situation, Task, Action, Result"
-                value={answer}
-                onChange={(e) => setAnswer(e.target.value)}
-              />
-              <div className="flex items-center justify-between mt-2">
-                <span className="text-xs text-gray-400">{answer.split(/\s+/).filter(Boolean).length} words</span>
-                <span className="text-xs text-gray-400">Recommended: 100-200 words</span>
-              </div>
+              
+              {question.questionFormat === 'mcq' ? (
+                <div className="space-y-2 mt-3">
+                  {question.options?.map((opt, idx) => (
+                    <label key={idx} className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${answer === opt ? 'bg-blue-50 border-blue-500' : 'hover:bg-gray-50 border-gray-200'}`}>
+                      <input 
+                        type="radio" 
+                        name={`mcq-${currentQ}`} 
+                        value={opt}
+                        checked={answer === opt}
+                        onChange={(e) => setAnswer(e.target.value)}
+                        className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                      />
+                      <span className="text-sm text-gray-700">{opt}</span>
+                    </label>
+                  ))}
+                </div>
+              ) : (
+                <>
+                  <textarea
+                    className="input resize-none text-sm"
+                    rows={6}
+                    placeholder="Type your answer here... Use the STAR method: Situation, Task, Action, Result"
+                    value={answer}
+                    onChange={(e) => setAnswer(e.target.value)}
+                  />
+                  <div className="flex items-center justify-between mt-2">
+                    <span className="text-xs text-gray-400">{answer.split(/\s+/).filter(Boolean).length} words</span>
+                    <span className="text-xs text-gray-400">Recommended: 100-200 words</span>
+                  </div>
+                </>
+              )}
               <div className="flex gap-2 mt-3">
                 <button
                   onClick={submitAnswer}
                   disabled={submitting || !answer.trim()}
                   className="btn-primary flex items-center gap-2"
                 >
-                  {submitting ? <><Loader size={16} className="animate-spin" /> Evaluating...</> : <><Send size={16} /> Submit Answer</>}
+                  {submitting ? <><Loader size={16} className="animate-spin" /> Evaluating...</> : <><Send size={18} /> Submit Answer</>}
                 </button>
                 {currentQ > 0 && (
                   <button onClick={() => { setCurrentQ(currentQ - 1); setAnswer(''); }}
                     className="btn-secondary flex items-center gap-1">
-                    <ChevronLeft size={16} /> Prev
+                    <ChevronLeft size={18} /> Prev
                   </button>
                 )}
               </div>
@@ -345,7 +370,7 @@ const InterviewSessionPage = () => {
           </div>
           <button onClick={completeSession} disabled={completing}
             className="btn-primary bg-green-600 hover:bg-green-700 flex items-center gap-2">
-            {completing ? <Loader size={16} className="animate-spin" /> : <Award size={16} />}
+            {completing ? <Loader size={16} className="animate-spin" /> : <Award size={18} />}
             Get Final Score
           </button>
         </div>

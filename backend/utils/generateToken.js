@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 /**
  * Generate JWT token for a user
  * @param {string} userId - MongoDB user ID
- * @param {string} role - User role (jobseeker/recruiter/admin)
+ * @param {string} role - User role (jobseeker/admin)
  * @returns {string} Signed JWT token
  */
 const generateToken = (userId, role = 'jobseeker') => {
@@ -16,25 +16,15 @@ const generateToken = (userId, role = 'jobseeker') => {
     {
       id: userId,
       role,
+      isDemo: userId.toString().includes('demo') || userId.toString().startsWith('0000')
     },
     process.env.JWT_SECRET,
     {
       expiresIn: process.env.JWT_EXPIRES_IN || '7d',
-      issuer: 'smart-resume-analyzer',
-      audience: 'smart-resume-analyzer-api'
+      issuer: 'resumexpert-ai',
+      audience: 'resumexpert-ai-api'
     }
   );
 };
 
-/**
- * Generate refresh token (longer expiry)
- */
-const generateRefreshToken = (userId) => {
-  return jwt.sign(
-    { id: userId, type: 'refresh' },
-    process.env.JWT_SECRET,
-    { expiresIn: '30d' }
-  );
-};
-
-module.exports = { generateToken, generateRefreshToken };
+module.exports = { generateToken };

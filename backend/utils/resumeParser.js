@@ -369,9 +369,5 @@ const parseResume = async (filePath) => {
 };
 
 module.exports = {
-  parseResume,
-  extractFromPDF,
-  extractFromDOCX,
-  extractSkills,
-  extractContactInfo
+  parseResume
 };

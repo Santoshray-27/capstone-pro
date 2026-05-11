@@ -8,6 +8,7 @@ const path = require('path');
 const fs = require('fs');
 
 // Ensure upload directory exists
+
 const uploadDir = path.join(__dirname, '..', process.env.UPLOAD_DIR || 'uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
@@ -16,6 +17,7 @@ if (!fs.existsSync(uploadDir)) {
 // ========================
 // Storage Configuration
 // ========================
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     // Create user-specific subdirectory
@@ -28,6 +30,7 @@ const storage = multer.diskStorage({
 
   filename: (req, file, cb) => {
     // Generate unique filename: timestamp-originalname
+
     const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1E9)}`;
     const ext = path.extname(file.originalname).toLowerCase();
     const safeName = file.originalname.replace(/[^a-zA-Z0-9.]/g, '-');
@@ -38,6 +41,7 @@ const storage = multer.diskStorage({
 // ========================
 // File Filter
 // ========================
+
 const fileFilter = (req, file, cb) => {
   const allowedMimetypes = [
     'application/pdf',
@@ -58,6 +62,7 @@ const fileFilter = (req, file, cb) => {
 // ========================
 // Multer Instance
 // ========================
+
 const upload = multer({
   storage,
   fileFilter,
@@ -111,4 +116,4 @@ const handleResumeUpload = (req, res, next) => {
   });
 };
 
-module.exports = { handleResumeUpload, upload };
+module.exports = { handleResumeUpload };

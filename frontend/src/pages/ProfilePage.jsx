@@ -82,7 +82,7 @@ const ProfilePage = () => {
         <div>
           <p className="font-bold text-gray-900 text-lg">{user?.name}</p>
           <p className="text-gray-500 text-sm">{user?.email}</p>
-          <span className={`badge ${user?.role === 'recruiter' ? 'badge-warning' : 'badge-info'} mt-1 capitalize`}>
+          <span className="badge badge-info mt-1 capitalize">
             {user?.role}
           </span>
         </div>
@@ -95,7 +95,7 @@ const ProfilePage = () => {
           <label className="block text-sm font-semibold text-gray-700 mb-1.5">Full Name</label>
           <input className="input" value={form.name} onChange={(e) => setForm({...form, name: e.target.value})} />
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {[
             { label: 'Phone', field: 'phone', placeholder: '(555) 000-0000' },
             { label: 'Location', field: 'location', placeholder: 'City, State' },
@@ -122,7 +122,7 @@ const ProfilePage = () => {
             value={form.profile.skills} onChange={(e) => updateProfile('skills', e.target.value)} />
         </div>
         <button type="submit" disabled={saving} className="btn-primary flex items-center gap-2">
-          {saving ? <><Loader size={16} className="animate-spin" /> Saving...</> : <><Save size={16} /> Save Profile</>}
+          {saving ? <><Loader size={16} className="animate-spin" /> Saving...</> : <><Save size={18} /> Save Profile</>}
         </button>
       </form>
 
@@ -140,14 +140,14 @@ const ProfilePage = () => {
           </div>
         ))}
         <button type="submit" disabled={changingPwd} className="btn-secondary flex items-center gap-2">
-          {changingPwd ? <><Loader size={16} className="animate-spin" /> Changing...</> : <><Lock size={16} /> Change Password</>}
+          {changingPwd ? <><Loader size={16} className="animate-spin" /> Changing...</> : <><Lock size={18} /> Change Password</>}
         </button>
       </form>
 
       {/* Stats */}
       <div className="card">
         <h3 className="font-bold text-gray-900 mb-4">Account Stats</h3>
-        <div className="grid grid-cols-3 gap-4 text-center">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
           {[
             { label: 'Resumes', value: user?.stats?.resumesUploaded || 0 },
             { label: 'Analyses', value: user?.stats?.analysisCount || 0 },

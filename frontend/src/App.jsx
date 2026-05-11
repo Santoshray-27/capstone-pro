@@ -20,7 +20,6 @@ import JobsPage from './pages/JobsPage';
 import InterviewPage from './pages/InterviewPage';
 import InterviewSessionPage from './pages/InterviewSessionPage';
 import ProfilePage from './pages/ProfilePage';
-import RecruiterPage from './pages/RecruiterPage';
 import FeedbackPage from './pages/FeedbackPage';
 import ScreeningPage from './pages/ScreeningPage';
 import SkillGapPage from './pages/SkillGapPage';
@@ -28,6 +27,7 @@ import SkillGapPage from './pages/SkillGapPage';
 // Layout
 import Layout from './components/common/Layout';
 import LoadingSpinner from './components/common/LoadingSpinner';
+import GlobalBackground from './components/common/GlobalBackground';
 
 // Protected Route wrapper
 const ProtectedRoute = ({ children, requiredRole }) => {
@@ -39,7 +39,9 @@ const ProtectedRoute = ({ children, requiredRole }) => {
     return <Navigate to="/login" replace />;
   }
 
-  if (requiredRole && user?.role !== requiredRole && user?.role !== 'admin') {
+  const isGuest = user?.email?.includes('guest_');
+
+  if (requiredRole && user?.role !== requiredRole && user?.role !== 'admin' && !isGuest) {
     return <Navigate to="/dashboard" replace />;
   }
 
@@ -104,9 +106,6 @@ const AppRoutes = () => {
       <Route path="/skill-gap" element={
         <ProtectedRoute><Layout><SkillGapPage /></Layout></ProtectedRoute>
       } />
-      <Route path="/recruiter" element={
-        <ProtectedRoute requiredRole="recruiter"><Layout><RecruiterPage /></Layout></ProtectedRoute>
-      } />
 
       {/* 404 */}
       <Route path="*" element={<Navigate to="/" replace />} />
@@ -117,27 +116,30 @@ const AppRoutes = () => {
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <AppRoutes />
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            duration: 3000,
-            style: {
-              borderRadius: '12px',
-              padding: '12px 16px',
-              fontSize: '14px',
-              fontWeight: '500'
-            },
-            success: {
-              iconTheme: { primary: '#22c55e', secondary: '#fff' }
-            },
-            error: {
-              iconTheme: { primary: '#ef4444', secondary: '#fff' }
-            }
-          }}
-        />
-      </Router>
+      <div className="relative min-h-screen">
+        <GlobalBackground />
+        <Router>
+          <AppRoutes />
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              duration: 3000,
+              style: {
+                borderRadius: '12px',
+                padding: '12px 16px',
+                fontSize: '14px',
+                fontWeight: '500'
+              },
+              success: {
+                iconTheme: { primary: '#22c55e', secondary: '#fff' }
+              },
+              error: {
+                iconTheme: { primary: '#ef4444', secondary: '#fff' }
+              }
+            }}
+          />
+        </Router>
+      </div>
     </AuthProvider>
   );
 }

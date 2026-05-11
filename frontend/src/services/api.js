@@ -43,7 +43,7 @@ api.interceptors.response.use(
       if (currentPath !== '/login' && currentPath !== '/register' && currentPath !== '/') {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        window.location.href = '/login';
+        window.location.href = '/';
       }
     }
     return Promise.reject(error);
@@ -90,6 +90,7 @@ export const analysisAPI = {
 // ========================
 export const jobsAPI = {
   getRecommendations: () => api.get('/jobs/recommendations'),
+  searchJobs: (data) => api.post('/jobs/search', data),
   getAll: (params) => api.get('/jobs', { params }),
   getById: (id) => api.get(`/jobs/${id}`),
   create: (data) => api.post('/jobs', data),
@@ -125,14 +126,6 @@ export const feedbackAPI = {
 };
 
 // ========================
-// Recruiter API
-// ========================
-export const recruiterAPI = {
-  getDashboard: () => api.get('/recruiter/dashboard'),
-  searchCandidates: (params) => api.get('/recruiter/candidates', { params }),
-};
-
-// ========================
 // Screening & Skill Gap API
 // ========================
 export const screeningAPI = {
@@ -141,4 +134,3 @@ export const screeningAPI = {
   getResumes: () => api.get('/screening/resumes'),
 };
 
-export default api;

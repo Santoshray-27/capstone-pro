@@ -34,13 +34,33 @@ const protect = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // Get user from database (exclude password)
-    const user = await User.findById(decoded.id).select('-password');
+    let user;
+    try {
+      user = await User.findById(decoded.id).select('-password');
+    } catch (dbError) {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('⚠️  Database error in auth middleware, attempting Demo Mode fallback');
+      } else {
+        throw dbError;
+      }
+    }
 
     if (!user) {
-      return res.status(401).json({
-        success: false,
-        message: 'Token is valid but user no longer exists.'
-      });
+      // If it's a demo token and we're in dev, create a mock user object
+      if (decoded.isDemo && process.env.NODE_ENV === 'development') {
+        user = {
+          _id: decoded.id,
+          role: decoded.role,
+          name: 'Demo Guest',
+          isActive: true,
+          toPublicJSON: () => ({ _id: decoded.id, role: decoded.role, name: 'Demo Guest', isActive: true })
+        };
+      } else {
+        return res.status(401).json({
+          success: false,
+          message: 'Token is valid but user no longer exists.'
+        });
+      }
     }
 
     // Check if user account is active
@@ -85,7 +105,7 @@ const protect = async (req, res, next) => {
 
 /**
  * Role-based access control
- * Usage: authorize('admin', 'recruiter')
+ * Usage: authorize('admin')
  */
 const authorize = (...roles) => {
   return (req, res, next) => {
@@ -107,31 +127,4 @@ const authorize = (...roles) => {
   };
 };
 
-/**
- * Optional authentication - doesn't fail if no token
- * Useful for public routes that show extra info when logged in
- */
-const optionalAuth = async (req, res, next) => {
-  try {
-    let token;
-
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-      token = req.headers.authorization.split(' ')[1];
-    }
-
-    if (token) {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      const user = await User.findById(decoded.id).select('-password');
-      if (user && user.isActive) {
-        req.user = user;
-      }
-    }
-
-    next();
-  } catch (error) {
-    // Silently fail - just continue without user
-    next();
-  }
-};
-
-module.exports = { protect, authorize, optionalAuth };
+module.exports = { protect, authorize };

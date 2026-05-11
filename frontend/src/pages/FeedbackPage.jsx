@@ -75,7 +75,7 @@ const FeedbackPage = () => {
           <div className="flex gap-2">
             {[1, 2, 3, 4, 5].map((star) => (
               <button key={star} type="button" onClick={() => setForm({ ...form, rating: star })}>
-                <Star size={28} className={`transition-colors ${star <= form.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-200'}`} />
+                <Star size={22} className={`transition-colors ${star <= form.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-200'}`} />
               </button>
             ))}
           </div>
@@ -104,7 +104,7 @@ const FeedbackPage = () => {
       {/* FAQ */}
       <div className="card bg-blue-50 border-blue-100">
         <h4 className="font-bold text-blue-900 mb-3 flex items-center gap-2">
-          <MessageSquare size={16} /> We Read Every Feedback
+          <MessageSquare size={18} /> We Read Every Feedback
         </h4>
         <p className="text-blue-700 text-sm leading-relaxed">
           Our team reviews all feedback and uses it to prioritize features and improvements. 

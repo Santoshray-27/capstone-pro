@@ -69,7 +69,7 @@ const analysisSchema = new mongoose.Schema({
   // AI Model Used
   aiModel: {
     type: String,
-    enum: ['gemini', 'openai', 'mock'],
+    enum: ['gemini', 'openai', 'groq', 'mock'],
     default: 'mock'
   },
 

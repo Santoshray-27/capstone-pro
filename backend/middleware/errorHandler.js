@@ -11,6 +11,7 @@ const errorHandler = (err, req, res, next) => {
   // ========================
   // Mongoose Validation Error
   // ========================
+
   if (err.name === 'ValidationError') {
     statusCode = 400;
     message = 'Validation Error';
@@ -23,6 +24,7 @@ const errorHandler = (err, req, res, next) => {
   // ========================
   // Mongoose Cast Error (invalid ObjectId)
   // ========================
+
   if (err.name === 'CastError') {
     statusCode = 400;
     message = `Invalid ${err.path}: ${err.value}`;
@@ -31,6 +33,7 @@ const errorHandler = (err, req, res, next) => {
   // ========================
   // MongoDB Duplicate Key Error
   // ========================
+
   if (err.code === 11000) {
     statusCode = 400;
     const field = Object.keys(err.keyValue)[0];
@@ -40,6 +43,7 @@ const errorHandler = (err, req, res, next) => {
   // ========================
   // JWT Errors
   // ========================
+
   if (err.name === 'JsonWebTokenError') {
     statusCode = 401;
     message = 'Invalid token. Please login again.';
@@ -53,6 +57,7 @@ const errorHandler = (err, req, res, next) => {
   // ========================
   // Multer Errors (file upload)
   // ========================
+
   if (err.code === 'LIMIT_FILE_SIZE') {
     statusCode = 400;
     message = `File too large. Maximum size is ${Math.round(process.env.MAX_FILE_SIZE / 1024 / 1024)}MB`;
@@ -66,6 +71,7 @@ const errorHandler = (err, req, res, next) => {
   // ========================
   // Send Response
   // ========================
+
   const response = {
     success: false,
     message,
@@ -77,6 +83,7 @@ const errorHandler = (err, req, res, next) => {
   };
 
   // Log error in development
+  
   if (process.env.NODE_ENV === 'development') {
     console.error(`❌ [${statusCode}] ${message}`, err.stack ? '\n' + err.stack : '');
   } else {

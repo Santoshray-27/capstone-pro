@@ -23,7 +23,7 @@ const LoadingSpinner = ({ fullscreen, size = 'md', text = 'Loading...' }) => {
             <span className="text-white text-xl">🧠</span>
           </div>
           <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
-          <p className="text-gray-500 font-medium">Loading Smart Resume Analyzer...</p>
+          <p className="text-gray-500 font-medium">Loading ResumeXpert AI...</p>
         </div>
       </div>
     );

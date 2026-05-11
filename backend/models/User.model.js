@@ -1,6 +1,6 @@
 /**
  * User Model
- * Handles both job seekers and recruiters with JWT authentication
+ * Handles job seekers with JWT authentication
  */
 
 const mongoose = require('mongoose');
@@ -29,10 +29,10 @@ const userSchema = new mongoose.Schema({
     select: false // Don't include password in queries by default
   },
 
-  // Role: jobseeker | recruiter | admin
+  // Role: jobseeker | admin
   role: {
     type: String,
-    enum: ['jobseeker', 'recruiter', 'admin'],
+    enum: ['jobseeker', 'admin'],
     default: 'jobseeker'
   },
 
@@ -50,13 +50,6 @@ const userSchema = new mongoose.Schema({
     skills: [{ type: String }]
   },
 
-  // Recruiter-specific fields
-  company: {
-    name: { type: String, default: '' },
-    website: { type: String, default: '' },
-    industry: { type: String, default: '' },
-    size: { type: String, default: '' }
-  },
 
   // Statistics
   stats: {
@@ -79,10 +72,10 @@ const userSchema = new mongoose.Schema({
 // ========================
 // Pre-save Middleware: Hash password
 // ========================
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   // Only hash if password is modified
   if (!this.isModified('password')) return next();
-  
+
   const salt = await bcrypt.genSalt(12);
   this.password = await bcrypt.hash(this.password, salt);
   next();
@@ -93,12 +86,12 @@ userSchema.pre('save', async function(next) {
 // ========================
 
 // Compare passwords
-userSchema.methods.comparePassword = async function(candidatePassword) {
+userSchema.methods.comparePassword = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
 // Get public profile (remove sensitive data)
-userSchema.methods.toPublicJSON = function() {
+userSchema.methods.toPublicJSON = function () {
   const user = this.toObject();
   delete user.password;
   delete user.passwordResetToken;
@@ -109,7 +102,7 @@ userSchema.methods.toPublicJSON = function() {
 // ========================
 // Indexes for Performance
 // ========================
-userSchema.index({ email: 1 });
+// userSchema.index({ email: 1 }); // Handled by unique: true in schema definition
 userSchema.index({ role: 1 });
 userSchema.index({ createdAt: -1 });
 

@@ -99,7 +99,7 @@ export const AuthProvider = ({ children }) => {
   // ========================
   const logout = useCallback(() => {
     clearAuth();
-    window.location.href = '/login';
+    window.location.href = '/';
   }, []);
 
   // ========================
@@ -115,7 +115,7 @@ export const AuthProvider = ({ children }) => {
     token,
     loading,
     isAuthenticated: !!user,
-    isRecruiter: user?.role === 'recruiter',
+    isGuest: user?.email?.includes('guest_'),
     isAdmin: user?.role === 'admin',
     register,
     login,
@@ -139,4 +139,3 @@ export const useAuth = () => {
   return context;
 };
 
-export default AuthContext;

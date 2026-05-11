@@ -1,169 +1,57 @@
-# 🧠 Smart AI Resume Analyzer
+# 🚀 ResumeXpert AI
 
-A **production-ready MERN stack** application that uses AI (Gemini/OpenAI) to analyze resumes, provide ATS scores, recommend jobs, and prepare candidates for interviews.
+**ResumeXpert AI** is a premium Career OS built on the MERN stack. For better scalability and independent deployment, this project is divided into two specialized repositories:
+
+1.  **[Backend API](https://github.com/your-username/resumexpert-ai-api)** — The AI intelligence engine (Node.js/Express).
+2.  **[Frontend UI](https://github.com/your-username/resumexpert-ai-ui)** — The premium user interface (React/Vite).
 
 ---
 
-## ✨ Features
+## ✨ Career OS Features
 
 | Feature | Description |
 |---------|------------|
-| 🔐 **Authentication** | JWT-based login/register with role support (Job Seeker / Recruiter) |
-| 👤 **Guest Login** | **New!** Instant access as Job Seeker or Recruiter without registration |
-| 📤 **Resume Upload** | Upload PDF/DOCX, auto-parse name, email, skills, experience |
-| 🧠 **AI ATS Analysis** | Score 0-100, strengths, weaknesses, keywords, suggestions |
-| 📝 **Resume Builder** | 4 templates: Modern, Professional, Minimal, Creative + PDF export |
-| 💼 **Job Recommendations** | AI-matched jobs based on resume skills and experience |
-| 🎤 **Interview Prep** | AI-generated questions, answer evaluation with score + feedback |
-| 📊 **Dashboard Analytics** | Recharts graphs: score trends, radar chart, skills bar |
-| 👥 **Recruiter Dashboard** | Post jobs, search candidates, track applications |
-| 💬 **Feedback System** | Submit platform/feature feedback with ratings |
+| 🔐 **Authentication** | Secure JWT-based access with instant Guest Demo modes |
+| 📄 **Resume Upload** | Upload PDF/DOCX, AI-powered semantic parsing of skills & experience |
+| 🧠 **Deep AI ATS Analysis** | Simulation of 50+ enterprise ATS platforms with actionable suggestions |
+| 🏗️ **Resume Builder** | 6 premium templates with live preview and PDF export |
+| 💼 **Job Matcher** | Semantic matching engine that finds roles based on your skill footprint |
+| 🎤 **AI Coaching** | Contextual mock interviews with real-time evaluation & feedback |
+| 📊 **Career Analytics** | High-density dashboard tracking score trends and growth |
+| 🌊 **Modern Interface** | Infinite Marquee and Stacked Card animations for a premium feel |
 
 ---
 
-## 🗂️ Folder Structure
+## 🗂️ Unified Folder Structure (Local Dev)
 
 ```
-smart-resume-analyzer/
-├── backend/
-│   ├── config/
-│   │   └── database.js              # MongoDB connection
-│   ├── controllers/
-│   │   ├── auth.controller.js       # Login/register/guest-login
-│   │   ├── resume.controller.js     # Upload/parse/manage
-│   │   ├── analysis.controller.js   # AI ATS analysis
-│   │   ├── job.controller.js        # Job listings + recommendations
-│   │   ├── interview.controller.js  # Interview sessions
-│   │   ├── feedback.controller.js   # Feedback CRUD
-│   │   ├── dashboard.controller.js  # Analytics
-│   │   └── recruiter.controller.js  # Recruiter features
-│   ├── middleware/
-│   │   ├── auth.middleware.js       # JWT protect + authorize
-│   │   ├── upload.middleware.js     # Multer file upload
-│   │   ├── errorHandler.js          # Global error handler
-│   │   └── notFound.js              # 404 handler
-│   ├── models/
-│   │   ├── User.model.js            # User schema + bcrypt
-│   │   ├── Resume.model.js          # Resume metadata + parsed data
-│   │   ├── Analysis.model.js        # ATS scores + AI feedback
-│   │   ├── Job.model.js             # Job listings
-│   │   ├── Interview.model.js       # Interview sessions + Q&A
-│   │   └── Feedback.model.js        # User feedback
-│   ├── routes/
-│   │   ├── auth.routes.js
-│   │   ├── resume.routes.js
-│   │   ├── analysis.routes.js
-│   │   ├── job.routes.js
-│   │   ├── interview.routes.js
-│   │   ├── feedback.routes.js
-│   │   ├── dashboard.routes.js
-│   │   └── recruiter.routes.js
-│   ├── utils/
-│   │   ├── aiService.js             # Gemini + OpenAI + mock fallback
-│   │   ├── resumeParser.js          # PDF/DOCX text extraction
-│   │   └── generateToken.js         # JWT token generation
-│   ├── uploads/                     # Uploaded resume files
-│   ├── .env                         # Environment variables
-│   ├── server.js                    # Express entry point
-│   └── package.json
+Resume/
+├── backend/                  # Express REST API
+│   ├── controllers/         # Business logic
+│   ├── models/              # MongoDB schemas
+│   ├── routes/              # API endpoints
+│   ├── utils/               # AI Service & Parsers
+│   └── server.js            # Entry point
 │
-└── frontend/
-    ├── src/
-    │   ├── components/
-    │   │   └── common/
-    │   │       ├── Layout.jsx       # Sidebar + navbar shell
-    │   │       ├── LoadingSpinner.jsx
-    │   │       └── ScoreCircle.jsx  # Animated score ring
-    │   ├── context/
-    │   │   └── AuthContext.jsx      # Global auth state
-    │   ├── pages/
-    │   │   ├── HomePage.jsx         # Landing page
-    │   │   ├── LoginPage.jsx
-    │   │   ├── RegisterPage.jsx
-    │   │   ├── DashboardPage.jsx    # Analytics dashboard
-    │   │   ├── UploadPage.jsx       # Drag & drop upload
-    │   │   ├── AnalysisPage.jsx     # AI feedback view
-    │   │   ├── ResumeBuilderPage.jsx # 4-template builder
-    │   │   ├── JobsPage.jsx         # Job recommendations
-    │   │   ├── InterviewPage.jsx    # Create sessions
-    │   │   ├── InterviewSessionPage.jsx # Active interview
-    │   │   ├── ProfilePage.jsx
-    │   │   ├── FeedbackPage.jsx
-    │   │   └── RecruiterPage.jsx
-    │   ├── services/
-    │   │   └── api.js               # Axios API layer
-    │   ├── App.jsx                  # Router + protected routes
-    │   └── main.jsx
-    └── package.json
+├── frontend/                 # React SPA
+│   ├── src/
+│   │   ├── components/      # UI components
+│   │   ├── pages/           # Career OS modules
+│   │   ├── services/        # API integration
+│   │   └── App.jsx          # Router
+│   └── index.html
+│
+└── CompleteDocumentation/    # Comprehensive technical docs
 ```
 
 ---
 
-## 🚀 API Reference
+## 🚀 Quick Start
 
-### Auth Routes
-```
-POST   /api/auth/register       → Register new user
-POST   /api/auth/login          → Login, returns JWT
-POST   /api/auth/guest-login    → Instant login (no credentials)
-GET    /api/auth/me             → Get current user (auth required)
-PUT    /api/auth/profile        → Update profile
-PUT    /api/auth/change-password → Change password
-```
-
-### Resume Routes
-```
-POST   /api/resumes/upload      → Upload PDF/DOCX
-GET    /api/resumes             → List my resumes
-GET    /api/resumes/:id         → Get single resume
-PUT    /api/resumes/:id         → Update resume title
-DELETE /api/resumes/:id         → Delete resume
-```
-
-### Analysis Routes
-```
-POST   /api/analysis/analyze/:resumeId  → Run AI analysis
-GET    /api/analysis/my/all             → All my analyses
-GET    /api/analysis/resume/:resumeId   → Analyses for resume
-GET    /api/analysis/:id                → Single analysis
-```
-
-### Job Routes
-```
-GET    /api/jobs/recommendations  → AI-personalized job list
-GET    /api/jobs                  → Browse all jobs
-GET    /api/jobs/:id              → Single job
-POST   /api/jobs                  → Post a job (recruiter)
-PUT    /api/jobs/:id              → Update job (recruiter)
-DELETE /api/jobs/:id              → Remove job (recruiter)
-```
-
-### Interview Routes
-```
-POST   /api/interviews/create     → Create session (AI generates questions)
-GET    /api/interviews            → List my sessions
-GET    /api/interviews/:id        → Single session
-POST   /api/interviews/:id/answer → Submit + evaluate answer
-POST   /api/interviews/:id/complete → Finalize session
-```
-
-### Dashboard & Other
-```
-GET    /api/dashboard/stats       → User analytics
-GET    /api/dashboard/admin       → Admin stats
-POST   /api/feedback              → Submit feedback
-GET    /api/recruiter/dashboard   → Recruiter overview
-GET    /api/recruiter/candidates  → Search candidates
-```
-
----
-
-## 🔧 Local Development Setup
-
-### 1. Clone & Install
+### 1. Installation
 ```bash
 git clone <your-repo>
-cd smart-resume-analyzer
+cd Resume
 
 # Install backend
 cd backend && npm install
@@ -172,69 +60,52 @@ cd backend && npm install
 cd ../frontend && npm install
 ```
 
-### 2. Configure Environment
-```bash
-# backend/.env
+### 2. Environment Setup
+Create a `.env` in the `backend/` folder:
+```env
 PORT=5000
-MONGODB_URI=mongodb+srv://...    # Your MongoDB connection string
-JWT_SECRET=your_secret_key_here
-GEMINI_API_KEY=your_gemini_key    # Get from: aistudio.google.com
-OPENAI_API_KEY=your_openai_key    # Optional fallback
-FRONTEND_URL=http://localhost:5173
+MONGODB_URI=your_mongodb_uri
+JWT_SECRET=your_secret
+GEMINI_API_KEY=your_key
+OPENAI_API_KEY=your_key
+GROQ_API_KEY=your_key
 ```
 
-### 3. Run Development Mode
+### 3. Run Development
 ```bash
-# Terminal 1 - Backend
+# Backend
 cd backend && npm run dev
 
-# Terminal 2 - Frontend
+# Frontend
 cd frontend && npm run dev
 ```
 
-- Frontend: http://localhost:5173
-- Backend API: http://localhost:5000/api
+- **Frontend:** http://localhost:5173
+- **API:** http://localhost:5000/api/health
 
 ---
 
-## 🌐 Production Deployment
+## 🤖 AI Fallback Engine
 
-### Backend → Railway or Render
-
-1. **Push to GitHub**
-2. **Connect to Railway**: railway.app → New Project → Deploy from GitHub
-3. **Set environment variables** in Railway dashboard.
-
-### Frontend → Vercel
-
-1. **Build frontend**: `cd frontend && npm run build`
-2. **Deploy to Vercel**.
-3. **Set environment variable** `VITE_API_URL` to your backend URL.
+ResumeXpert AI ensures 100% uptime through a 3-tier fallback chain:
+1. **Google Gemini 2.0 Flash** (Primary)
+2. **OpenAI GPT-3.5** (Secondary)
+3. **Groq LLaMA 3.1** (Tertiary)
 
 ---
 
-## 🤖 AI Configuration
-
-The app uses a priority chain:
-1. **Gemini 1.5 Flash** (free, fast) → preferred
-2. **OpenAI GPT-3.5** → fallback
-3. **Mock data** → fallback if neither key set
-
----
-
-## 🛠️ Tech Stack
+## 🛠️ Technology Stack
 
 | Layer | Technology |
 |-------|-----------|
-| Frontend | React 18, Vite, Tailwind CSS, Recharts, Lucide Icons |
-| Backend | Node.js, Express.js, MVC Architecture |
-| Database | MongoDB, Mongoose ODM |
-| Auth | JWT, bcryptjs |
-| File Upload | Multer |
-| AI Integration | Google Gemini 1.5, OpenAI GPT-3.5 |
+| **Frontend** | React 18, Vite, Tailwind CSS, Recharts, Three.js |
+| **Backend** | Node.js, Express.js (MVC) |
+| **Database** | MongoDB, Mongoose ODM |
+| **Auth** | JWT, bcryptjs |
+| **AI** | Gemini 2.0, OpenAI, Groq |
 
 ---
 
 ## 📄 License
 
-MIT License — Built for learning and production use.
+MIT License — Built for the next generation of job seekers.

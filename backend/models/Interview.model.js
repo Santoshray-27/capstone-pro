@@ -12,6 +12,12 @@ const questionSchema = new mongoose.Schema({
     enum: ['behavioral', 'technical', 'situational', 'cultural', 'roleplay'],
     default: 'behavioral'
   },
+  questionFormat: {
+    type: String,
+    enum: ['open-ended', 'mcq'],
+    default: 'open-ended'
+  },
+  options: [{ type: String }],
   difficulty: {
     type: String,
     enum: ['easy', 'medium', 'hard'],
@@ -62,7 +68,7 @@ const interviewSchema = new mongoose.Schema({
   },
   interviewType: {
     type: String,
-    enum: ['technical', 'behavioral', 'mixed', 'case-study'],
+    enum: ['technical', 'behavioral', 'mixed', 'case-study', 'mcq-only'],
     default: 'mixed'
   },
 
@@ -104,7 +110,7 @@ const interviewSchema = new mongoose.Schema({
   // AI Model Used
   aiModel: {
     type: String,
-    enum: ['gemini', 'openai', 'mock'],
+    enum: ['gemini', 'openai', 'groq', 'mock'],
     default: 'mock'
   },
 

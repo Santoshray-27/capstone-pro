@@ -2,7 +2,7 @@
  * Resume Builder Page - 4 templates with live preview & PDF export
  */
 import React, { useState, useRef } from 'react';
-import { FileText, Download, Eye, Edit, Check } from 'lucide-react';
+import { FileText, Download, Eye, Edit, Check, X, Plus } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const TEMPLATES = [
@@ -10,6 +10,8 @@ const TEMPLATES = [
   { id: 'professional', name: 'Professional', desc: 'Classic executive style', color: 'from-gray-700 to-gray-900' },
   { id: 'minimal', name: 'Minimal', desc: 'Simple and clean', color: 'from-slate-400 to-slate-600' },
   { id: 'creative', name: 'Creative', desc: 'Bold two-column layout', color: 'from-purple-600 to-pink-600' },
+  { id: 'corporate', name: 'Corporate', desc: 'ATS-optimized standard', color: 'from-slate-800 to-black' },
+  { id: 'datadriven', name: 'Data-Driven', desc: 'Functional two-column grid', color: 'from-teal-600 to-emerald-700' },
 ];
 
 const defaultData = {
@@ -105,12 +107,217 @@ const CreativeTemplate = ({ data }) => (
   </div>
 );
 
+const CorporateTemplate = ({ data }) => (
+  <div style={{ fontFamily: 'Georgia, serif', fontSize: '12px', padding: '36px', color: '#000', lineHeight: '1.5' }}>
+    <div style={{ textAlign: 'center', borderBottom: '2px solid #000', paddingBottom: '16px', marginBottom: '20px' }}>
+      <h1 style={{ fontSize: '26px', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1px', margin: '0 0 8px' }}>{data.name}</h1>
+      <p style={{ fontSize: '12px', margin: '0' }}>
+        {[data.location, data.phone, data.email, data.linkedin].filter(Boolean).join(' • ')}
+      </p>
+    </div>
+    
+    {data.summary && (
+      <div style={{ marginBottom: '20px' }}>
+        <h2 style={{ fontSize: '13px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '8px' }}>Professional Summary</h2>
+        <p style={{ margin: '0', textAlign: 'justify' }}>{data.summary}</p>
+      </div>
+    )}
+
+    {data.experience?.length > 0 && (
+      <div style={{ marginBottom: '20px' }}>
+        <h2 style={{ fontSize: '13px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '12px' }}>Professional Experience</h2>
+        {data.experience.map((e, i) => (
+          <div key={i} style={{ marginBottom: '14px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+              <span style={{ fontWeight: 'bold', fontSize: '13px' }}>{e.role}</span>
+              <span style={{ fontWeight: 'bold' }}>{e.duration}</span>
+            </div>
+            <div style={{ fontStyle: 'italic', marginBottom: '6px' }}>{e.company}</div>
+            <p style={{ margin: '0', paddingLeft: '14px', textIndent: '-14px' }}>• {e.desc}</p>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {data.education?.length > 0 && (
+      <div style={{ marginBottom: '20px' }}>
+        <h2 style={{ fontSize: '13px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '12px' }}>Education</h2>
+        {data.education.map((e, i) => (
+          <div key={i} style={{ marginBottom: '10px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+              <span style={{ fontWeight: 'bold' }}>{e.school}</span>
+              <span>{e.year}</span>
+            </div>
+            <div>{e.degree}</div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {data.skills?.length > 0 && (
+      <div>
+        <h2 style={{ fontSize: '13px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '8px' }}>Core Skills</h2>
+        <p style={{ margin: '0' }}>{data.skills.join(', ')}</p>
+      </div>
+    )}
+  </div>
+);
+
+const DataDrivenTemplate = ({ data }) => (
+  <div style={{ fontFamily: 'Helvetica, Arial, sans-serif', fontSize: '11px', padding: '32px', color: '#111', lineHeight: '1.6' }}>
+    <header style={{ marginBottom: '24px' }}>
+      <h1 style={{ fontSize: '32px', fontWeight: '900', color: '#0f172a', margin: '0 0 4px', letterSpacing: '-0.5px' }}>{data.name}</h1>
+      <div style={{ fontSize: '15px', fontWeight: '600', color: '#334155', marginBottom: '10px' }}>{data.title}</div>
+      <div style={{ display: 'flex', gap: '14px', fontSize: '11px', color: '#475569', flexWrap: 'wrap' }}>
+        {data.email && <span>{data.email}</span>}
+        {data.phone && <span>| {data.phone}</span>}
+        {data.location && <span>| {data.location}</span>}
+        {data.linkedin && <span>| {data.linkedin}</span>}
+      </div>
+    </header>
+
+    {data.summary && (
+      <section style={{ marginBottom: '24px' }}>
+        <p style={{ margin: 0, color: '#334155', fontSize: '12px', lineHeight: '1.7' }}>{data.summary}</p>
+      </section>
+    )}
+
+    <div style={{ display: 'flex', gap: '32px' }}>
+      <div style={{ flex: '2' }}>
+        {data.experience?.length > 0 && (
+          <section style={{ marginBottom: '24px' }}>
+            <h2 style={{ fontSize: '13px', fontWeight: '800', color: '#0f172a', textTransform: 'uppercase', marginBottom: '14px', paddingBottom: '6px', borderBottom: '2px solid #e2e8f0', letterSpacing: '1px' }}>Experience</h2>
+            {data.experience.map((e, i) => (
+              <div key={i} style={{ marginBottom: '18px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '4px' }}>
+                  <strong style={{ fontSize: '13px', color: '#0f172a' }}>{e.role}</strong>
+                  <span style={{ fontSize: '11px', fontWeight: '700', color: '#64748b' }}>{e.duration}</span>
+                </div>
+                <div style={{ fontWeight: '700', color: '#3b82f6', marginBottom: '8px', fontSize: '12px' }}>{e.company}</div>
+                <p style={{ margin: 0, color: '#475569', paddingLeft: '12px', textIndent: '-12px' }}>• {e.desc}</p>
+              </div>
+            ))}
+          </section>
+        )}
+      </div>
+
+      <div style={{ flex: '1' }}>
+        {data.skills?.length > 0 && (
+          <section style={{ marginBottom: '24px' }}>
+            <h2 style={{ fontSize: '13px', fontWeight: '800', color: '#0f172a', textTransform: 'uppercase', marginBottom: '14px', paddingBottom: '6px', borderBottom: '2px solid #e2e8f0', letterSpacing: '1px' }}>Technical Skills</h2>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+              {data.skills.map((s, i) => (
+                <span key={i} style={{ background: '#f1f5f9', color: '#334155', padding: '5px 10px', borderRadius: '4px', fontSize: '11px', fontWeight: '600', border: '1px solid #e2e8f0' }}>{s}</span>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {data.education?.length > 0 && (
+          <section>
+            <h2 style={{ fontSize: '13px', fontWeight: '800', color: '#0f172a', textTransform: 'uppercase', marginBottom: '14px', paddingBottom: '6px', borderBottom: '2px solid #e2e8f0', letterSpacing: '1px' }}>Education</h2>
+            {data.education.map((e, i) => (
+              <div key={i} style={{ marginBottom: '14px' }}>
+                <div style={{ fontWeight: '800', color: '#0f172a', fontSize: '12px', marginBottom: '2px' }}>{e.degree}</div>
+                <div style={{ color: '#475569', marginBottom: '4px', fontWeight: '500' }}>{e.school}</div>
+                <div style={{ fontSize: '11px', fontWeight: '700', color: '#64748b' }}>{e.year}</div>
+              </div>
+            ))}
+          </section>
+        )}
+      </div>
+    </div>
+  </div>
+);
+
 const TEMPLATE_COMPONENTS = {
   modern: ModernTemplate,
   professional: ProfessionalTemplate,
   minimal: MinimalTemplate,
   creative: CreativeTemplate,
+  corporate: CorporateTemplate,
+  datadriven: DataDrivenTemplate,
 };
+
+// ========================
+// Sub-components
+// ========================
+const SkillsInput = ({ skills, onChange }) => {
+  const [inputValue, setInputValue] = useState('');
+  const inputRef = useRef(null);
+
+  const addSkills = (input) => {
+    const newSkills = input
+      .split(/[,]+/)
+      .map(s => s.trim())
+      .filter(s => s && !skills.includes(s));
+    
+    if (newSkills.length > 0) {
+      onChange([...skills, ...newSkills]);
+      setInputValue('');
+    }
+  };
+
+  const removeSkill = (index) => {
+    onChange(skills.filter((_, i) => i !== index));
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      addSkills(inputValue);
+    } else if (e.key === 'Backspace' && !inputValue && skills.length > 0) {
+      removeSkill(skills.length - 1);
+    }
+  };
+
+  const suggestions = ['React', 'Node.js', 'TypeScript', 'MongoDB', 'AWS', 'Docker', 'Python', 'PostgreSQL', 'GraphQL', 'Next.js', 'Tailwind CSS', 'Redux'];
+  const filteredSuggestions = suggestions.filter(s => !skills.includes(s)).slice(0, 5);
+
+  return (
+    <div className="space-y-3">
+      <div 
+        className="input min-h-[48px] flex flex-wrap gap-2 items-center focus-within:border-[var(--primary)] focus-within:ring-4 focus-within:ring-[color-mix(in_srgb,var(--primary)_10%,transparent)]" 
+        style={{ cursor: 'text' }} 
+        onClick={() => inputRef.current?.focus()}
+      >
+        {skills.map((skill, index) => (
+          <span key={index} className="badge-info h-7 flex items-center gap-1 animate-page-enter" style={{ animationDelay: `${index * 50}ms` }}>
+            {skill}
+            <button onClick={(e) => { e.stopPropagation(); removeSkill(index); }} className="hover:bg-primary/20 rounded-full p-0.5 transition-colors">
+              <X size={18} />
+            </button>
+          </span>
+        ))}
+        <input
+          ref={inputRef}
+          className="bg-transparent border-none outline-none text-sm flex-1 min-w-[80px]"
+          placeholder={skills.length === 0 ? "Add skills (comma separated)..." : ""}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={handleKeyDown}
+          onBlur={() => addSkills(inputValue)}
+        />
+      </div>
+      
+      {filteredSuggestions.length > 0 && (
+        <div className="flex flex-wrap gap-2 items-center">
+          <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">Suggested:</span>
+          {filteredSuggestions.map((s) => (
+            <button
+              key={s}
+              onClick={() => addSkills(s)}
+              className="text-[11px] px-2 py-1 rounded-md border border-border hover:border-primary hover:text-primary transition-colors flex items-center gap-1"
+            >
+              <Plus size={18} /> {s}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
 
 const ResumeBuilderPage = () => {
   const [template, setTemplate] = useState('modern');
@@ -141,50 +348,69 @@ const ResumeBuilderPage = () => {
   const TemplatePreview = TEMPLATE_COMPONENTS[template];
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6 stagger-children">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-black text-gray-900">Resume Builder</h2>
-          <p className="text-gray-500 text-sm mt-1">Build a professional resume with AI-powered templates</p>
+          <h1 className="page-title">Resume Builder</h1>
+          <p className="page-subtitle">Build a professional resume with AI-powered templates</p>
         </div>
-        <button onClick={downloadPDF} className="btn-primary flex items-center gap-2">
+        <button onClick={downloadPDF} className="btn-primary flex items-center justify-center gap-2 shadow-sm w-full sm:w-auto">
           <Download size={18} /> Download PDF
         </button>
       </div>
 
       {/* Template Selector */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {TEMPLATES.map((t) => (
           <button key={t.id} onClick={() => setTemplate(t.id)}
-            className={`p-3 rounded-xl border-2 transition-all ${template === t.id ? 'border-blue-600 bg-blue-50' : 'border-gray-200 hover:border-gray-300'}`}>
-            <div className={`h-8 rounded-lg bg-gradient-to-r ${t.color} mb-2`} />
-            <div className="flex items-center justify-between">
-              <div className="text-left">
-                <p className={`font-bold text-sm ${template === t.id ? 'text-blue-700' : 'text-gray-800'}`}>{t.name}</p>
-                <p className="text-xs text-gray-400">{t.desc}</p>
+            className="relative p-1 rounded-xl border-2 transition-all duration-200 text-left"
+            style={{
+              borderColor: template === t.id ? 'var(--primary)' : 'var(--border)',
+              boxShadow: template === t.id ? '0 4px 14px -2px color-mix(in srgb, var(--primary) 25%, transparent)' : 'var(--shadow-sm)',
+              background: template === t.id ? 'color-mix(in srgb, var(--primary) 3%, var(--card))' : 'var(--card)'
+            }}
+          >
+            <div className={`h-10 rounded-lg bg-gradient-to-r ${t.color} mb-2 mx-0.5 mt-0.5 shadow-inner`} />
+            <div className="flex items-start justify-between gap-1 px-2 pb-2">
+              <div>
+                <p className="font-semibold text-sm" style={{ color: template === t.id ? 'var(--primary)' : 'var(--foreground)' }}>
+                  {t.name}
+                </p>
+                <p className="text-[11px]" style={{ color: 'var(--muted-foreground)' }}>{t.desc}</p>
               </div>
-              {template === t.id && <Check size={14} className="text-blue-600" />}
+              {template === t.id && (
+                <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5"
+                     style={{ background: 'var(--primary)' }}>
+                  <Check size={18} className="text-white" />
+                </div>
+              )}
             </div>
           </button>
         ))}
       </div>
 
-      {/* Tabs */}
-      <div className="flex gap-2">
+      {/* Edit/Preview — Segmented Control (mobile only) */}
+      <div className="inline-flex lg:hidden rounded-xl p-1" style={{ background: 'var(--muted)' }}>
         {[{ id: 'edit', label: 'Edit', icon: Edit }, { id: 'preview', label: 'Preview', icon: Eye }].map((t) => (
           <button key={t.id} onClick={() => setTab(t.id)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${tab === t.id ? 'bg-blue-600 text-white' : 'bg-white border border-gray-200 text-gray-600 hover:border-gray-300'}`}>
-            <t.icon size={16} /> {t.label}
+            className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium transition-all"
+            style={{
+              background: tab === t.id ? 'var(--card)' : 'transparent',
+              color: tab === t.id ? 'var(--foreground)' : 'var(--muted-foreground)',
+              boxShadow: tab === t.id ? 'var(--shadow-sm)' : 'none'
+            }}
+          >
+            <t.icon size={15} /> {t.label}
           </button>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         {/* Edit Form */}
         {(tab === 'edit' || window.innerWidth >= 1024) && (
           <div className={`space-y-4 ${tab === 'preview' ? 'hidden lg:block' : ''}`}>
             <div className="card space-y-4">
-              <h3 className="font-bold text-gray-900">Personal Info</h3>
+              <h3 className="section-title pb-2" style={{ borderBottom: '1px solid var(--border)' }}>Personal Info</h3>
               {[
                 { field: 'name', label: 'Full Name', placeholder: 'John Doe' },
                 { field: 'title', label: 'Job Title', placeholder: 'Software Engineer' },
@@ -194,52 +420,123 @@ const ResumeBuilderPage = () => {
                 { field: 'linkedin', label: 'LinkedIn', placeholder: 'linkedin.com/in/...' }
               ].map((f) => (
                 <div key={f.field}>
-                  <label className="block text-xs font-semibold text-gray-600 mb-1">{f.label}</label>
-                  <input className="input text-sm" placeholder={f.placeholder}
+                  <label className="form-label">{f.label}</label>
+                  <input className="input" placeholder={f.placeholder}
                     value={data[f.field]} onChange={(e) => update(f.field, e.target.value)} />
                 </div>
               ))}
               <div>
-                <label className="block text-xs font-semibold text-gray-600 mb-1">Professional Summary</label>
-                <textarea className="input text-sm resize-none" rows={3}
+                <label className="form-label">Professional Summary</label>
+                <textarea className="input resize-none" rows={3}
                   value={data.summary} onChange={(e) => update('summary', e.target.value)} />
               </div>
             </div>
 
             <div className="card">
-              <h3 className="font-bold text-gray-900 mb-3">Skills</h3>
-              <textarea className="input text-sm resize-none" rows={2}
-                placeholder="React, Node.js, Python (comma separated)"
-                value={data.skills.join(', ')}
-                onChange={(e) => update('skills', e.target.value.split(',').map(s => s.trim()).filter(Boolean))} />
+              <h3 className="section-title pb-2 mb-3" style={{ borderBottom: '1px solid var(--border)' }}>Skills</h3>
+              <SkillsInput 
+                skills={data.skills} 
+                onChange={(newSkills) => update('skills', newSkills)} 
+              />
             </div>
 
-            <div className="card space-y-3">
-              <h3 className="font-bold text-gray-900">Experience</h3>
+            <div className="card space-y-4">
+              <div className="flex items-center justify-between pb-2" style={{ borderBottom: '1px solid var(--border)' }}>
+                <h3 className="section-title">Experience</h3>
+                <button onClick={() => update('experience', [...data.experience, { role: '', company: '', duration: '', desc: '' }])}
+                  className="text-[var(--primary)] hover:underline text-sm font-medium flex items-center gap-1">
+                  <Plus size={18} /> Add
+                </button>
+              </div>
+              
               {data.experience.map((exp, i) => (
-                <div key={i} className="p-3 bg-gray-50 rounded-xl space-y-2">
-                  <input className="input text-sm" placeholder="Job Title"
-                    value={exp.role} onChange={(e) => { const updated = [...data.experience]; updated[i].role = e.target.value; update('experience', updated); }} />
-                  <input className="input text-sm" placeholder="Company"
-                    value={exp.company} onChange={(e) => { const updated = [...data.experience]; updated[i].company = e.target.value; update('experience', updated); }} />
-                  <input className="input text-sm" placeholder="Duration (e.g. 2021 - Present)"
-                    value={exp.duration} onChange={(e) => { const updated = [...data.experience]; updated[i].duration = e.target.value; update('experience', updated); }} />
-                  <textarea className="input text-sm resize-none" rows={2} placeholder="Description"
-                    value={exp.desc} onChange={(e) => { const updated = [...data.experience]; updated[i].desc = e.target.value; update('experience', updated); }} />
+                <div key={i} className="p-4 bg-gray-50/50 rounded-xl space-y-3 relative group border border-transparent hover:border-border transition-all">
+                  <button 
+                    onClick={() => update('experience', data.experience.filter((_, idx) => idx !== i))}
+                    className="absolute top-2 right-2 p-1 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <X size={18} />
+                  </button>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-[10px] uppercase font-bold text-gray-400 ml-1">Job Title</label>
+                      <input className="input !py-2 !px-3" placeholder="Software Engineer"
+                        value={exp.role} onChange={(e) => { const updated = [...data.experience]; updated[i].role = e.target.value; update('experience', updated); }} />
+                    </div>
+                    <div>
+                      <label className="text-[10px] uppercase font-bold text-gray-400 ml-1">Company</label>
+                      <input className="input !py-2 !px-3" placeholder="Google"
+                        value={exp.company} onChange={(e) => { const updated = [...data.experience]; updated[i].company = e.target.value; update('experience', updated); }} />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-[10px] uppercase font-bold text-gray-400 ml-1">Duration</label>
+                    <input className="input !py-2 !px-3" placeholder="2021 - Present"
+                      value={exp.duration} onChange={(e) => { const updated = [...data.experience]; updated[i].duration = e.target.value; update('experience', updated); }} />
+                  </div>
+                  <div>
+                    <label className="text-[10px] uppercase font-bold text-gray-400 ml-1">Description</label>
+                    <textarea className="input !py-2 !px-3 resize-none" rows={2} placeholder="Key achievements..."
+                      value={exp.desc} onChange={(e) => { const updated = [...data.experience]; updated[i].desc = e.target.value; update('experience', updated); }} />
+                  </div>
                 </div>
               ))}
-              <button onClick={() => update('experience', [...data.experience, { role: '', company: '', duration: '', desc: '' }])}
-                className="btn-secondary text-sm py-2 w-full">+ Add Experience</button>
+            </div>
+
+            <div className="card space-y-4">
+              <div className="flex items-center justify-between pb-2" style={{ borderBottom: '1px solid var(--border)' }}>
+                <h3 className="section-title">Education</h3>
+                <button onClick={() => update('education', [...data.education, { degree: '', school: '', year: '' }])}
+                  className="text-[var(--primary)] hover:underline text-sm font-medium flex items-center gap-1">
+                  <Plus size={18} /> Add
+                </button>
+              </div>
+
+              {data.education.map((edu, i) => (
+                <div key={i} className="p-4 bg-gray-50/50 rounded-xl space-y-3 relative group border border-transparent hover:border-border transition-all">
+                  <button 
+                    onClick={() => update('education', data.education.filter((_, idx) => idx !== i))}
+                    className="absolute top-2 right-2 p-1 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <X size={18} />
+                  </button>
+                  <div>
+                    <label className="text-[10px] uppercase font-bold text-gray-400 ml-1">Degree</label>
+                    <input className="input !py-2 !px-3" placeholder="B.S. Computer Science"
+                      value={edu.degree} onChange={(e) => { const updated = [...data.education]; updated[i].degree = e.target.value; update('education', updated); }} />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-[10px] uppercase font-bold text-gray-400 ml-1">School</label>
+                      <input className="input !py-2 !px-3" placeholder="MIT"
+                        value={edu.school} onChange={(e) => { const updated = [...data.education]; updated[i].school = e.target.value; update('education', updated); }} />
+                    </div>
+                    <div>
+                      <label className="text-[10px] uppercase font-bold text-gray-400 ml-1">Year</label>
+                      <input className="input !py-2 !px-3" placeholder="2020"
+                        value={edu.year} onChange={(e) => { const updated = [...data.education]; updated[i].year = e.target.value; update('education', updated); }} />
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         )}
 
-        {/* Preview */}
+        {/* Preview — Paper effect, sticky */}
         {(tab === 'preview' || window.innerWidth >= 1024) && (
           <div className={`${tab === 'edit' ? 'hidden lg:block' : ''}`}>
-            <div className="card p-0 overflow-hidden shadow-lg border border-gray-200">
-              <div ref={previewRef} className="bg-white" style={{ minHeight: '700px' }}>
-                <TemplatePreview data={data} />
+            <div className="sticky top-20">
+              <div className="overflow-hidden rounded-lg bg-white"
+                   style={{ boxShadow: '0 4px 6px -1px rgba(0,0,0,0.07), 0 20px 50px -10px rgba(0,0,0,0.15)', border: '1px solid var(--border)', minHeight: '850px' }}>
+                <div ref={previewRef} className="bg-white">
+                  <TemplatePreview data={data} />
+                </div>
+              </div>
+              <div className="flex justify-center mt-4">
+                <button onClick={downloadPDF} className="btn-secondary flex items-center gap-2">
+                  <Download size={18} /> Download PDF
+                </button>
               </div>
             </div>
           </div>

@@ -64,11 +64,7 @@ const jobSchema = new mongoose.Schema({
   industry: { type: String, default: '' },
   tags: [{ type: String }],
 
-  // Posted by (recruiter)
-  postedBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  },
+
 
   // Status & Metrics
   isActive: { type: Boolean, default: true },

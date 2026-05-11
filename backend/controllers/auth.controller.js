@@ -8,12 +8,17 @@ const User = require('../models/User.model');
 const { generateToken } = require('../utils/generateToken');
 
 // Helper to check DB connection
-const checkDB = () => {
+const checkDB = (force = true) => {
   if (mongoose.connection.readyState !== 1) {
+    if (!force && process.env.NODE_ENV === 'development') {
+      console.warn('⚠️  Database not connected, but continuing (non-critical path)');
+      return false;
+    }
     const error = new Error('Database connection is not ready. Please try again in a moment.');
     error.statusCode = 503;
     throw error;
   }
+  return true;
 };
 
 // ========================
@@ -22,7 +27,7 @@ const checkDB = () => {
 // ========================
 const register = async (req, res, next) => {
   try {
-    checkDB();
+    checkDB(true);
     const { name, email, password, role = 'jobseeker' } = req.body;
 
     // Validate required fields
@@ -71,7 +76,7 @@ const register = async (req, res, next) => {
 // ========================
 const login = async (req, res, next) => {
   try {
-    checkDB();
+    checkDB(true);
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -111,8 +116,8 @@ const login = async (req, res, next) => {
     // Generate token
     const token = generateToken(user._id, user.role);
 
-    // Update last active
-    await User.findByIdAndUpdate(user._id, { 'stats.lastActive': Date.now() });
+    // Update last active (non-blocking)
+    User.findByIdAndUpdate(user._id, { 'stats.lastActive': Date.now() }).exec().catch(() => {});
 
     res.status(200).json({
       success: true,
@@ -133,8 +138,35 @@ const login = async (req, res, next) => {
 // ========================
 const guestLogin = async (req, res, next) => {
   try {
-    checkDB();
     const { role = 'jobseeker' } = req.body;
+    const isDBConnected = checkDB(false);
+
+    if (!isDBConnected) {
+      // Return a mock guest user if DB is down (Demo mode)
+      const mockId = "00000000000000000000demo"; // 24 chars, valid hex-ish but recognized by our heuristic
+      const mockUser = {
+        _id: mockId,
+        name: `Guest ${role.charAt(0).toUpperCase() + role.slice(1)} (Demo)`,
+        email: `guest_${role}@demo.com`,
+        role: role,
+        isActive: true,
+        toPublicJSON: () => ({
+          _id: mockId,
+          name: `Guest ${role.charAt(0).toUpperCase() + role.slice(1)} (Demo)`,
+          email: `guest_${role}@demo.com`,
+          role: role,
+          isActive: true
+        })
+      };
+
+      const token = generateToken(mockUser._id, mockUser.role);
+      return res.status(200).json({
+        success: true,
+        message: `Welcome! You are in Demo Mode (Database unavailable).`,
+        token,
+        user: mockUser.toPublicJSON()
+      });
+    }
 
     const guestEmail = `guest_${role}@resumeforge.com`;
     const guestName = `Guest ${role.charAt(0).toUpperCase() + role.slice(1)}`;
@@ -157,8 +189,8 @@ const guestLogin = async (req, res, next) => {
     // Generate token
     const token = generateToken(user._id, user.role);
 
-    // Update last active
-    await User.findByIdAndUpdate(user._id, { 'stats.lastActive': Date.now() });
+    // Update last active (non-blocking)
+    User.findByIdAndUpdate(user._id, { 'stats.lastActive': Date.now() }).exec().catch(() => {});
 
     res.status(200).json({
       success: true,

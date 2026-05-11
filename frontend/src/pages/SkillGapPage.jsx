@@ -92,113 +92,89 @@ const SkillGapPage = () => {
 
   const getStatusIcon = (status) => {
     switch (status) {
-      case 'strong': return <CheckCircle2 size={14} className="text-emerald-500" />;
-      case 'adequate': return <Minus size={14} className="text-amber-500" />;
-      case 'weak': return <AlertCircle size={14} className="text-orange-500" />;
-      case 'missing': return <XCircle size={14} className="text-red-500" />;
-      default: return <Minus size={14} className="text-gray-400" />;
+      case 'strong': return <CheckCircle2 size={18} className="text-emerald-500" />;
+      case 'adequate': return <Minus size={18} className="text-amber-500" />;
+      case 'weak': return <AlertCircle size={18} className="text-orange-500" />;
+      case 'missing': return <XCircle size={18} className="text-red-500" />;
+      default: return <Minus size={18} className="text-gray-400" />;
     }
   };
 
   const CHART_COLORS = ['#6366f1', '#8b5cf6', '#a855f7', '#c084fc', '#d8b4fe'];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 stagger-children">
       {/* Header */}
-      <div className="bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-500 rounded-2xl p-6 text-white relative overflow-hidden">
-        <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-2xl" />
-        <div className="absolute bottom-0 left-10 w-20 h-20 bg-white/5 rounded-full blur-xl" />
-        <div className="relative">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-              <Crosshair size={22} />
-            </div>
-            <h2 className="text-2xl font-black">Skill Gap Analyzer</h2>
-          </div>
-          <p className="text-fuchsia-100 text-sm max-w-xl">
-            Discover the exact skills you need to land your dream role. Get a personalized learning path, market insights, and certification recommendations.
-          </p>
-        </div>
+      <div>
+        <h1 className="page-title">Skill Gap Analyzer</h1>
+        <p className="page-subtitle">Discover exactly which skills you need to land your target role</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Input Form */}
-        <div className="lg:col-span-1">
-          <div className="card sticky top-4">
-            <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <Sparkles size={18} className="text-fuchsia-500" />
-              Analysis Setup
-            </h3>
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        {/* Input Form — 3 columns */}
+        <div className="lg:col-span-3">
+          <div className="card sticky top-24">
+            <div className="flex items-center gap-2 mb-5">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'color-mix(in srgb, var(--primary) 10%, transparent)' }}>
+                <Crosshair size={18} style={{ color: 'var(--primary)' }} />
+              </div>
+              <h3 className="section-title">Analysis Setup</h3>
+            </div>
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Resume Selector */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Select Resume</label>
+                <label className="form-label">Select Resume</label>
                 {loadingResumes ? (
-                  <div className="input flex items-center gap-2 text-gray-400"><Loader size={16} className="animate-spin" /> Loading...</div>
-                ) : resumes.length > 0 ? (
-                  <div className="relative">
-                    <select
-                      className="input appearance-none pr-10"
-                      value={selectedResume}
-                      onChange={(e) => setSelectedResume(e.target.value)}
-                    >
-                      <option value="">Latest resume (auto)</option>
-                      {resumes.map(r => (
-                        <option key={r._id} value={r._id}>
-                          {r.title || r.originalName}
-                        </option>
-                      ))}
-                    </select>
-                    <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                  <div className="input flex items-center gap-2" style={{ color: 'var(--muted-foreground)' }}>
+                    <Loader size={16} className="animate-spin" /> Loading...
                   </div>
+                ) : resumes.length > 0 ? (
+                  <select
+                    className="input"
+                    value={selectedResume}
+                    onChange={(e) => setSelectedResume(e.target.value)}
+                  >
+                    <option value="">Latest resume (auto)</option>
+                    {resumes.map(r => (
+                      <option key={r._id} value={r._id}>{r.title || r.originalName}</option>
+                    ))}
+                  </select>
                 ) : (
-                  <p className="text-sm text-amber-600 bg-amber-50 p-3 rounded-xl">
-                    No resumes uploaded yet. Skills will be used instead.
-                  </p>
+                  <div className="flex items-start gap-2 p-3 rounded-lg" style={{ background: 'oklch(0.98 0.04 85)', border: '1px solid oklch(0.88 0.07 85)' }}>
+                    <AlertCircle size={18} className="mt-0.5 shrink-0" style={{ color: 'oklch(0.55 0.13 85)' }} />
+                    <div>
+                      <p className="text-sm font-medium" style={{ color: 'oklch(0.35 0.08 85)' }}>No resumes uploaded yet</p>
+                      <p className="text-xs mt-0.5" style={{ color: 'oklch(0.50 0.10 85)' }}>Skills will be entered manually instead.</p>
+                    </div>
+                  </div>
                 )}
               </div>
 
               {/* Target Role */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Target Role *</label>
-                <input
-                  type="text"
-                  className="input"
-                  placeholder="e.g., Senior Full Stack Developer"
-                  value={form.targetRole}
-                  onChange={(e) => setForm({ ...form, targetRole: e.target.value })}
-                  required
-                />
+                <label className="form-label">Target Role <span style={{ color: 'var(--destructive)' }}>*</span></label>
+                <input type="text" className="input" placeholder="e.g., Senior Full Stack Developer"
+                  value={form.targetRole} onChange={(e) => setForm({ ...form, targetRole: e.target.value })} required />
               </div>
 
               {/* Experience Level */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Experience Level</label>
-                <div className="relative">
-                  <select
-                    className="input appearance-none pr-10"
-                    value={form.experienceLevel}
-                    onChange={(e) => setForm({ ...form, experienceLevel: e.target.value })}
-                  >
-                    <option value="entry">Entry Level (0-2 yrs)</option>
-                    <option value="mid">Mid Level (2-5 yrs)</option>
-                    <option value="senior">Senior Level (5+ yrs)</option>
-                    <option value="lead">Lead / Principal (8+ yrs)</option>
-                  </select>
-                  <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-                </div>
+                <label className="form-label">Experience Level</label>
+                <select className="input" value={form.experienceLevel}
+                  onChange={(e) => setForm({ ...form, experienceLevel: e.target.value })}>
+                  <option value="entry">Entry Level (0-2 yrs)</option>
+                  <option value="mid">Mid Level (2-5 yrs)</option>
+                  <option value="senior">Senior Level (5+ yrs)</option>
+                  <option value="lead">Lead / Principal (8+ yrs)</option>
+                </select>
               </div>
 
               {/* Current Skills */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Current Skills (comma-separated)</label>
-                <textarea
-                  className="input min-h-[80px] resize-y"
-                  placeholder="React, Node.js, Python, SQL..."
-                  value={form.currentSkills}
-                  onChange={(e) => setForm({ ...form, currentSkills: e.target.value })}
-                />
-                <p className="text-xs text-gray-400 mt-1">Leave blank to auto-detect from resume</p>
+                <label className="form-label">Current Skills <span className="font-normal" style={{ color: 'var(--muted-foreground)' }}>(comma-separated)</span></label>
+                <textarea className="input min-h-[80px] resize-y" placeholder="React, Node.js, Python, SQL..."
+                  value={form.currentSkills} onChange={(e) => setForm({ ...form, currentSkills: e.target.value })} />
+                <p className="text-xs mt-1" style={{ color: 'var(--muted-foreground)' }}>Leave blank to auto-detect from resume</p>
               </div>
 
               <button
@@ -212,25 +188,29 @@ const SkillGapPage = () => {
           </div>
         </div>
 
-        {/* Results Panel */}
+        {/* Results Panel — 2 columns */}
         <div className="lg:col-span-2 space-y-5">
           {!result && !loading && (
             <div className="card flex flex-col items-center justify-center min-h-[400px] text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-violet-100 to-fuchsia-100 rounded-3xl flex items-center justify-center mb-4">
-                <Crosshair size={36} className="text-violet-400" />
+              <div className="relative w-20 h-20 mx-auto mb-5">
+                <div className="absolute inset-0 rounded-full blur-2xl opacity-20" style={{ background: 'radial-gradient(circle, var(--primary) 0%, transparent 70%)' }} />
+                <div className="relative w-20 h-20 rounded-full flex items-center justify-center" style={{ background: 'color-mix(in srgb, var(--primary) 10%, var(--muted))' }}>
+                  <Crosshair size={22} style={{ color: 'var(--primary)' }} className="opacity-70" />
+                </div>
               </div>
-              <h3 className="text-lg font-bold text-gray-700 mb-1">Ready to Analyze</h3>
-              <p className="text-gray-400 text-sm max-w-sm">
-                Enter your target role and skills to get a detailed analysis of your readiness with a personalized learning path.
+              <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--foreground)' }}>Ready to Analyze</h3>
+              <p className="text-sm max-w-sm" style={{ color: 'var(--muted-foreground)' }}>
+                Enter your target role and skills to get a detailed analysis with a personalized learning path.
               </p>
             </div>
           )}
 
           {loading && (
             <div className="card flex flex-col items-center justify-center min-h-[400px] text-center">
-              <div className="w-16 h-16 border-4 border-violet-200 border-t-violet-600 rounded-full animate-spin mb-4" />
-              <h3 className="text-lg font-bold text-gray-700 mb-1">Analyzing Skills...</h3>
-              <p className="text-gray-400 text-sm">Building your personalized skill gap report</p>
+              <div className="w-14 h-14 border-4 rounded-full animate-spin mb-4"
+                   style={{ borderColor: 'color-mix(in srgb, var(--primary) 20%, var(--border))', borderTopColor: 'var(--primary)' }} />
+              <h3 className="text-base font-semibold mb-1" style={{ color: 'var(--foreground)' }}>Analyzing Skills...</h3>
+              <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>Building your personalized skill gap report</p>
             </div>
           )}
 
@@ -241,7 +221,7 @@ const SkillGapPage = () => {
                 const r = getReadinessConfig(result.readinessLevel);
                 return (
                   <div className="card">
-                    <div className="flex items-center justify-between flex-wrap gap-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                       <div className="flex items-center gap-4">
                         <ScoreCircle score={result.overallReadiness || 0} size={110} strokeWidth={8} />
                         <div>
@@ -249,20 +229,20 @@ const SkillGapPage = () => {
                           <p className={`text-xl font-black ${r.text}`}>{r.label}</p>
                           {result.timeToReady && (
                             <p className="text-xs text-gray-400 flex items-center gap-1 mt-1">
-                              <Clock size={12} /> Est. {result.timeToReady} to fully ready
+                              <Clock size={18} /> Est. {result.timeToReady} to fully ready
                             </p>
                           )}
                         </div>
                       </div>
-                      <div className="flex gap-3">
+                      <div className="flex flex-row sm:flex-row gap-3">
                         {result.criticalGaps?.length > 0 && (
-                          <div className="bg-red-50 rounded-xl p-3 text-center">
+                          <div className="bg-red-50 rounded-xl p-3 text-center flex-1 sm:flex-none">
                             <p className="text-xl font-black text-red-600">{result.criticalGaps.length}</p>
                             <p className="text-[10px] text-red-500 uppercase font-semibold">Critical Gaps</p>
                           </div>
                         )}
                         {result.strengthsToLeverage && (
-                          <div className="bg-emerald-50 rounded-xl p-3 text-center">
+                          <div className="bg-emerald-50 rounded-xl p-3 text-center flex-1 sm:flex-none">
                             <p className="text-xl font-black text-emerald-600">{result.strengthsToLeverage.length}</p>
                             <p className="text-[10px] text-emerald-500 uppercase font-semibold">Strengths</p>
                           </div>
@@ -340,7 +320,7 @@ const SkillGapPage = () => {
                     <ul className="space-y-2">
                       {result.strengthsToLeverage.map((s, i) => (
                         <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
-                          <CheckCircle2 size={15} className="text-emerald-500 mt-0.5 flex-shrink-0" /> {s}
+                          <CheckCircle2 size={18} className="text-emerald-500 mt-0.5 flex-shrink-0" /> {s}
                         </li>
                       ))}
                     </ul>
@@ -354,7 +334,7 @@ const SkillGapPage = () => {
                     <ul className="space-y-2">
                       {result.criticalGaps.map((s, i) => (
                         <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
-                          <XCircle size={15} className="text-red-400 mt-0.5 flex-shrink-0" /> {s}
+                          <XCircle size={18} className="text-red-400 mt-0.5 flex-shrink-0" /> {s}
                         </li>
                       ))}
                     </ul>
@@ -370,20 +350,24 @@ const SkillGapPage = () => {
                   </h3>
                   <div className="space-y-3">
                     {result.learningPath.map((step, i) => (
-                      <div key={i} className="flex items-start gap-4 p-4 bg-gradient-to-r from-gray-50 to-transparent rounded-xl group hover:from-violet-50 transition-colors">
-                        <div className="flex-shrink-0 w-9 h-9 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-xl flex items-center justify-center text-white text-sm font-bold shadow-sm">
-                          {step.step}
-                        </div>
+                      <div className="flex items-start gap-4 p-4 rounded-xl group transition-colors"
+                         style={{ background: 'var(--muted)' }}
+                         onMouseEnter={e => e.currentTarget.style.background = 'color-mix(in srgb, var(--primary) 5%, var(--muted))'}
+                         onMouseLeave={e => e.currentTarget.style.background = 'var(--muted)'}>
+                      <div className="flex-shrink-0 w-9 h-9 rounded-xl flex items-center justify-center text-white text-sm font-bold shadow-sm"
+                           style={{ background: 'var(--primary)' }}>
+                        {step.step}
+                      </div>
                         <div className="flex-1">
                           <div className="flex items-center gap-2 flex-wrap">
                             <p className="text-sm font-bold text-gray-900">{step.skill}</p>
                             {getPriorityBadge(step.priority)}
                           </div>
                           <p className="text-xs text-gray-500 mt-1 flex items-center gap-1">
-                            <BookOpen size={12} /> {step.resource}
+                            <BookOpen size={18} /> {step.resource}
                           </p>
                           <p className="text-xs text-gray-400 flex items-center gap-1 mt-0.5">
-                            <Clock size={12} /> {step.timeEstimate}
+                            <Clock size={18} /> {step.timeEstimate}
                           </p>
                         </div>
                       </div>
@@ -394,11 +378,11 @@ const SkillGapPage = () => {
 
               {/* Market Insights */}
               {result.marketInsights && (
-                <div className="card bg-gradient-to-br from-violet-50 to-fuchsia-50 border-violet-100">
-                  <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
-                    <Target size={18} className="text-violet-600" /> Market Insights
+                <div className="card" style={{ background: 'color-mix(in srgb, var(--primary) 3%, var(--card))', borderColor: 'color-mix(in srgb, var(--primary) 15%, var(--border))' }}>
+                  <h3 className="section-title mb-4 flex items-center gap-2">
+                    <Target size={18} style={{ color: 'var(--primary)' }} /> Market Insights
                   </h3>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                     <div className="bg-white/80 rounded-xl p-3 text-center shadow-sm">
                       <TrendingUp size={20} className="text-green-500 mx-auto mb-1" />
                       <p className="text-xs text-gray-500">Demand</p>
@@ -409,7 +393,7 @@ const SkillGapPage = () => {
                       <p className="text-xs text-gray-500">Salary Range</p>
                       <p className="text-sm font-bold text-gray-800">{result.marketInsights.salaryRange}</p>
                     </div>
-                    <div className="bg-white/80 rounded-xl p-3 text-center shadow-sm col-span-2">
+                    <div className="bg-white/80 rounded-xl p-3 text-center shadow-sm sm:col-span-2 md:col-span-2">
                       <Building2 size={20} className="text-blue-500 mx-auto mb-1" />
                       <p className="text-xs text-gray-500">Top Employers</p>
                       <p className="text-sm font-bold text-gray-800">{result.marketInsights.topEmployers?.join(', ')}</p>
@@ -429,7 +413,7 @@ const SkillGapPage = () => {
                     {result.certifications.map((cert, i) => (
                       <div key={i} className="p-4 bg-amber-50/50 rounded-xl border border-amber-100 hover:border-amber-200 transition-colors">
                         <div className="flex items-start justify-between gap-2 mb-1">
-                          <Award size={16} className="text-amber-600 flex-shrink-0 mt-0.5" />
+                          <Award size={18} className="text-amber-600 flex-shrink-0 mt-0.5" />
                           <span className={`text-[10px] uppercase font-bold px-1.5 py-0.5 rounded-full ${
                             cert.importance === 'critical' ? 'bg-red-100 text-red-600' :
                             cert.importance === 'recommended' ? 'bg-amber-100 text-amber-600' :

@@ -6,6 +6,7 @@
 const Job = require('../models/Job.model');
 const Resume = require('../models/Resume.model');
 const { getJobRecommendations } = require('../utils/aiService');
+const { searchRealJobs } = require('../utils/jobAggregator');
 
 // ========================
 // @route  GET /api/jobs/recommendations
@@ -175,4 +176,63 @@ const deleteJob = async (req, res, next) => {
   }
 };
 
-module.exports = { getRecommendations, getJobs, getJob, createJob, updateJob, deleteJob };
+// ========================
+// @route  POST /api/jobs/search
+// @access Private
+// ========================
+const searchJobs = async (req, res, next) => {
+  try {
+    const {
+      query = '',
+      location = '',
+      employmentType = '',
+      datePosted = 'all',
+      source = '',
+      resumeId
+    } = req.body;
+
+    let searchQuery = query;
+
+    // Auto-extract skills/query from resume if provided
+    if (resumeId) {
+      const resume = await Resume.findOne({ _id: resumeId, user: req.user._id });
+      if (resume && resume.parsedData) {
+        const skills = resume.parsedData.skills || [];
+        const topSkills = skills.slice(0, 3).join(' ');
+        searchQuery = query ? `${query} ${topSkills}` : topSkills;
+      }
+    }
+
+    if (!searchQuery) {
+      searchQuery = 'Software Engineer'; // Default
+    }
+
+    let results = await searchRealJobs(
+      source ? `${searchQuery} ${source}` : searchQuery, 
+      location, 
+      employmentType, 
+      datePosted,
+      source
+    );
+
+    // Apply strict source filter if provided to ensure UI consistency
+    if (source) {
+      results = results.filter(job => job.source && job.source.toLowerCase().includes(source.toLowerCase()));
+    }
+
+    // Sort by match score natively
+    const sorted = results.sort((a, b) => b.matchScore - a.matchScore);
+
+    res.json({
+      success: true,
+      count: sorted.length,
+      jobs: sorted,
+      source: 'aggregator'
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getRecommendations, getJobs, getJob, createJob, updateJob, deleteJob, searchJobs };
