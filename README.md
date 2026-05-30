@@ -4,8 +4,8 @@
 
 **ResumeXpert AI** is a premium Career OS built on the MERN stack. For better scalability and independent deployment, this project is divided into two specialized repositories:
 
-1.  **[Backend API](https://github.com/your-username/resumexpert-ai-api)** — The AI intelligence engine (Node.js/Express).
-2.  **[Frontend UI](https://github.com/your-username/resumexpert-ai-ui)** — The premium user interface (React/Vite).
+1.  **[Backend API](https://github.com/Santoshray-27/resumexpert-ai-backend)** — The AI intelligence engine (Node.js/Express).
+2.  **[Frontend UI](https://github.com/Santoshray-27/resumexpert-ai-frontend)** — The premium user interface (React/Vite).
 
 ---
 
