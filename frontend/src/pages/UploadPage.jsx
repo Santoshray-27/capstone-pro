@@ -86,9 +86,8 @@ const UploadPage = () => {
     return (
       <div className="max-w-xl mx-auto mt-8">
         <div className="card text-center p-12">
-          <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 border"
-               style={{ background: 'oklch(0.97 0.05 145)', borderColor: 'oklch(0.85 0.08 145)' }}>
-            <CheckCircle size={22} style={{ color: 'oklch(0.45 0.14 145)' }} />
+          <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 border bg-muted border border-border text-muted-foreground">
+            <CheckCircle size={22} className="text-foreground" />
           </div>
           <h2 className="page-title text-center mb-3">
             {result.analysis ? 'Analysis Complete' : 'Upload Successful'}
@@ -231,7 +230,7 @@ const UploadPage = () => {
         {/* Toggle switch */}
         <div className="relative w-11 h-6 rounded-full transition-colors shrink-0"
              style={{ background: autoAnalyze ? 'var(--primary)' : 'var(--border)' }}>
-          <div className="absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all duration-200"
+          <div className="absolute top-0.5 w-5 h-5 bg-card rounded-full shadow transition-all duration-200"
                style={{ left: autoAnalyze ? '22px' : '2px' }} />
         </div>
       </div>
@@ -249,19 +248,17 @@ const UploadPage = () => {
       </button>
 
       {/* Tips — amber card */}
-      <div className="rounded-xl p-6 mt-4"
-           style={{ background: 'oklch(0.98 0.03 85)', border: '1px solid oklch(0.88 0.07 85)' }}>
+      <div className="rounded-xl p-6 mt-4 bg-muted border border-border text-muted-foreground">
         <div className="flex items-center gap-2 mb-4">
-          <Lightbulb size={18} style={{ color: 'oklch(0.55 0.13 85)' }} />
-          <h4 className="text-sm font-semibold" style={{ color: 'oklch(0.35 0.08 85)' }}>
+          <Lightbulb size={18} className="text-foreground" />
+          <h4 className="text-sm font-semibold text-foreground">
             Tips for a Higher ATS Score
           </h4>
         </div>
         <ul className="space-y-2.5">
           {tips.map((tip, i) => (
-            <li key={i} className="flex items-start gap-2.5 text-sm"
-                style={{ color: 'oklch(0.40 0.08 85)' }}>
-              <Check size={18} className="mt-0.5 shrink-0" style={{ color: 'oklch(0.50 0.12 85)' }} />
+            <li key={i} className="flex items-start gap-2.5 text-sm text-foreground">
+              <Check size={18} className="mt-0.5 shrink-0 text-foreground" />
               {tip}
             </li>
           ))}

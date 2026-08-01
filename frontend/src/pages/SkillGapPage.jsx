@@ -77,7 +77,7 @@ const SkillGapPage = () => {
       case 'almost_ready': return { label: 'Almost Ready', color: '#3b82f6', bg: 'bg-blue-50', text: 'text-blue-600' };
       case 'developing': return { label: 'Developing', color: '#f59e0b', bg: 'bg-amber-50', text: 'text-amber-600' };
       case 'significant_gaps': return { label: 'Significant Gaps', color: '#ef4444', bg: 'bg-red-50', text: 'text-red-600' };
-      default: return { label: 'Unknown', color: '#6b7280', bg: 'bg-gray-50', text: 'text-gray-600' };
+      default: return { label: 'Unknown', color: '#6b7280', bg: 'bg-muted', text: 'text-muted-foreground' };
     }
   };
 
@@ -96,7 +96,7 @@ const SkillGapPage = () => {
       case 'adequate': return <Minus size={18} className="text-amber-500" />;
       case 'weak': return <AlertCircle size={18} className="text-orange-500" />;
       case 'missing': return <XCircle size={18} className="text-red-500" />;
-      default: return <Minus size={18} className="text-gray-400" />;
+      default: return <Minus size={18} className="text-muted-foreground" />;
     }
   };
 
@@ -140,11 +140,11 @@ const SkillGapPage = () => {
                     ))}
                   </select>
                 ) : (
-                  <div className="flex items-start gap-2 p-3 rounded-lg" style={{ background: 'oklch(0.98 0.04 85)', border: '1px solid oklch(0.88 0.07 85)' }}>
-                    <AlertCircle size={18} className="mt-0.5 shrink-0" style={{ color: 'oklch(0.55 0.13 85)' }} />
+                  <div className="flex items-start gap-2 p-3 rounded-lg bg-muted border border-border text-muted-foreground">
+                    <AlertCircle size={18} className="mt-0.5 shrink-0 text-foreground" />
                     <div>
-                      <p className="text-sm font-medium" style={{ color: 'oklch(0.35 0.08 85)' }}>No resumes uploaded yet</p>
-                      <p className="text-xs mt-0.5" style={{ color: 'oklch(0.50 0.10 85)' }}>Skills will be entered manually instead.</p>
+                      <p className="text-sm font-medium text-foreground">No resumes uploaded yet</p>
+                      <p className="text-xs mt-0.5 text-foreground">Skills will be entered manually instead.</p>
                     </div>
                   </div>
                 )}
@@ -225,10 +225,10 @@ const SkillGapPage = () => {
                       <div className="flex items-center gap-4">
                         <ScoreCircle score={result.overallReadiness || 0} size={110} strokeWidth={8} />
                         <div>
-                          <p className="text-sm text-gray-500 font-medium">Role Readiness</p>
+                          <p className="text-sm text-muted-foreground font-medium">Role Readiness</p>
                           <p className={`text-xl font-black ${r.text}`}>{r.label}</p>
                           {result.timeToReady && (
-                            <p className="text-xs text-gray-400 flex items-center gap-1 mt-1">
+                            <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
                               <Clock size={18} /> Est. {result.timeToReady} to fully ready
                             </p>
                           )}
@@ -249,7 +249,7 @@ const SkillGapPage = () => {
                         )}
                       </div>
                     </div>
-                    <p className="mt-4 text-sm text-gray-600 bg-gray-50 p-4 rounded-xl leading-relaxed">{result.summary}</p>
+                    <p className="mt-4 text-sm text-muted-foreground bg-muted p-4 rounded-xl leading-relaxed">{result.summary}</p>
                   </div>
                 );
               })()}
@@ -260,11 +260,11 @@ const SkillGapPage = () => {
                   {result.skillCategories.map((cat, catIdx) => (
                     <div key={catIdx} className="card">
                       <div className="flex items-center justify-between mb-4">
-                        <h3 className="font-bold text-gray-900 flex items-center gap-2">
+                        <h3 className="font-bold text-foreground flex items-center gap-2">
                           <Zap size={18} className="text-violet-500" /> {cat.category}
                         </h3>
                         <div className="flex items-center gap-2 text-xs">
-                          <span className="text-gray-500">Gap:</span>
+                          <span className="text-muted-foreground">Gap:</span>
                           <span className={`font-bold ${cat.gap > 0 ? 'text-red-500' : 'text-emerald-500'}`}>
                             {cat.gap > 0 ? `−${cat.gap}` : `+${Math.abs(cat.gap)}`}
                           </span>
@@ -277,12 +277,12 @@ const SkillGapPage = () => {
                             <div className="flex items-center justify-between mb-1">
                               <div className="flex items-center gap-2">
                                 {getStatusIcon(skill.status)}
-                                <span className="text-sm font-medium text-gray-800">{skill.name}</span>
+                                <span className="text-sm font-medium text-foreground">{skill.name}</span>
                                 {getPriorityBadge(skill.priority)}
                               </div>
-                              <span className="text-xs text-gray-400">{skill.current}/{skill.required}</span>
+                              <span className="text-xs text-muted-foreground">{skill.current}/{skill.required}</span>
                             </div>
-                            <div className="relative h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                            <div className="relative h-2.5 bg-muted rounded-full overflow-hidden">
                               {/* Required level marker */}
                               <div
                                 className="absolute top-0 h-full w-0.5 bg-gray-400 z-10"
@@ -314,12 +314,12 @@ const SkillGapPage = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 {result.strengthsToLeverage?.length > 0 && (
                   <div className="card">
-                    <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <h3 className="font-bold text-foreground mb-3 flex items-center gap-2">
                       <TrendingUp size={18} className="text-emerald-500" /> Strengths to Leverage
                     </h3>
                     <ul className="space-y-2">
                       {result.strengthsToLeverage.map((s, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                        <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
                           <CheckCircle2 size={18} className="text-emerald-500 mt-0.5 flex-shrink-0" /> {s}
                         </li>
                       ))}
@@ -328,12 +328,12 @@ const SkillGapPage = () => {
                 )}
                 {result.criticalGaps?.length > 0 && (
                   <div className="card">
-                    <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <h3 className="font-bold text-foreground mb-3 flex items-center gap-2">
                       <AlertCircle size={18} className="text-red-500" /> Critical Gaps
                     </h3>
                     <ul className="space-y-2">
                       {result.criticalGaps.map((s, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                        <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
                           <XCircle size={18} className="text-red-400 mt-0.5 flex-shrink-0" /> {s}
                         </li>
                       ))}
@@ -345,7 +345,7 @@ const SkillGapPage = () => {
               {/* Learning Path */}
               {result.learningPath?.length > 0 && (
                 <div className="card">
-                  <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  <h3 className="font-bold text-foreground mb-4 flex items-center gap-2">
                     <Rocket size={18} className="text-fuchsia-500" /> Personalized Learning Path
                   </h3>
                   <div className="space-y-3">
@@ -360,13 +360,13 @@ const SkillGapPage = () => {
                       </div>
                         <div className="flex-1">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <p className="text-sm font-bold text-gray-900">{step.skill}</p>
+                            <p className="text-sm font-bold text-foreground">{step.skill}</p>
                             {getPriorityBadge(step.priority)}
                           </div>
-                          <p className="text-xs text-gray-500 mt-1 flex items-center gap-1">
+                          <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
                             <BookOpen size={18} /> {step.resource}
                           </p>
-                          <p className="text-xs text-gray-400 flex items-center gap-1 mt-0.5">
+                          <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
                             <Clock size={18} /> {step.timeEstimate}
                           </p>
                         </div>
@@ -383,30 +383,30 @@ const SkillGapPage = () => {
                     <Target size={18} style={{ color: 'var(--primary)' }} /> Market Insights
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="bg-white/80 rounded-xl p-3 text-center shadow-sm">
+                    <div className="bg-card/80 rounded-xl p-3 text-center shadow-sm">
                       <TrendingUp size={20} className="text-green-500 mx-auto mb-1" />
-                      <p className="text-xs text-gray-500">Demand</p>
-                      <p className="text-sm font-bold text-gray-800 capitalize">{result.marketInsights.demandLevel}</p>
+                      <p className="text-xs text-muted-foreground">Demand</p>
+                      <p className="text-sm font-bold text-foreground capitalize">{result.marketInsights.demandLevel}</p>
                     </div>
-                    <div className="bg-white/80 rounded-xl p-3 text-center shadow-sm">
+                    <div className="bg-card/80 rounded-xl p-3 text-center shadow-sm">
                       <DollarSign size={20} className="text-emerald-500 mx-auto mb-1" />
-                      <p className="text-xs text-gray-500">Salary Range</p>
-                      <p className="text-sm font-bold text-gray-800">{result.marketInsights.salaryRange}</p>
+                      <p className="text-xs text-muted-foreground">Salary Range</p>
+                      <p className="text-sm font-bold text-foreground">{result.marketInsights.salaryRange}</p>
                     </div>
-                    <div className="bg-white/80 rounded-xl p-3 text-center shadow-sm sm:col-span-2 md:col-span-2">
+                    <div className="bg-card/80 rounded-xl p-3 text-center shadow-sm sm:col-span-2 md:col-span-2">
                       <Building2 size={20} className="text-blue-500 mx-auto mb-1" />
-                      <p className="text-xs text-gray-500">Top Employers</p>
-                      <p className="text-sm font-bold text-gray-800">{result.marketInsights.topEmployers?.join(', ')}</p>
+                      <p className="text-xs text-muted-foreground">Top Employers</p>
+                      <p className="text-sm font-bold text-foreground">{result.marketInsights.topEmployers?.join(', ')}</p>
                     </div>
                   </div>
-                  <p className="mt-3 text-xs text-gray-600 leading-relaxed">{result.marketInsights.growthOutlook}</p>
+                  <p className="mt-3 text-xs text-muted-foreground leading-relaxed">{result.marketInsights.growthOutlook}</p>
                 </div>
               )}
 
               {/* Certifications */}
               {result.certifications?.length > 0 && (
                 <div className="card">
-                  <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  <h3 className="font-bold text-foreground mb-4 flex items-center gap-2">
                     <GraduationCap size={18} className="text-amber-500" /> Recommended Certifications
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -417,11 +417,11 @@ const SkillGapPage = () => {
                           <span className={`text-[10px] uppercase font-bold px-1.5 py-0.5 rounded-full ${
                             cert.importance === 'critical' ? 'bg-red-100 text-red-600' :
                             cert.importance === 'recommended' ? 'bg-amber-100 text-amber-600' :
-                            'bg-gray-100 text-gray-600'
+                            'bg-muted text-muted-foreground'
                           }`}>{cert.importance}</span>
                         </div>
-                        <p className="text-sm font-semibold text-gray-800 mt-2">{cert.name}</p>
-                        <p className="text-xs text-gray-500 mt-0.5">{cert.provider}</p>
+                        <p className="text-sm font-semibold text-foreground mt-2">{cert.name}</p>
+                        <p className="text-xs text-muted-foreground mt-0.5">{cert.provider}</p>
                       </div>
                     ))}
                   </div>

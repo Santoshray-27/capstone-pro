@@ -122,10 +122,9 @@ const chartColors = getChartColors();
           </button>
         </div>
         {resumes.length === 0 && (
-          <div className="flex items-center gap-2 mt-3 p-3 rounded-lg"
-               style={{ background: 'oklch(0.98 0.04 85)', border: '1px solid oklch(0.88 0.07 85)' }}>
-            <AlertTriangle size={18} style={{ color: 'oklch(0.55 0.13 85)' }} />
-            <p className="text-sm" style={{ color: 'oklch(0.40 0.08 85)' }}>
+          <div className="flex items-center gap-2 mt-3 p-3 rounded-lg bg-muted border border-border text-muted-foreground">
+            <AlertTriangle size={18} className="text-foreground" />
+            <p className="text-sm text-foreground">
               No resumes found.{' '}
               <Link to="/upload" className="font-medium underline-offset-2 hover:underline"
                     style={{ color: 'var(--primary)' }}>
@@ -259,8 +258,8 @@ const chartColors = getChartColors();
                   <h4 className="section-title mb-4">Keyword Analysis</h4>
                   <div className="mb-4">
                     <p className="text-xs font-semibold mb-2 flex items-center gap-1.5">
-                      <CheckCircle size={18} style={{ color: 'oklch(0.45 0.14 145)' }} />
-                      <span style={{ color: 'oklch(0.45 0.14 145)' }}>Found Keywords</span>
+                      <CheckCircle size={18} className="text-foreground" />
+                      <span className="text-foreground">Found Keywords</span>
                     </p>
                     <div className="flex flex-wrap gap-1.5">
                       {(selected.keywordsFound || []).slice(0, 8).map((kw) => (
@@ -270,8 +269,8 @@ const chartColors = getChartColors();
                   </div>
                   <div>
                     <p className="text-xs font-semibold mb-2 flex items-center gap-1.5">
-                      <XCircle size={18} style={{ color: 'oklch(0.55 0.19 25)' }} />
-                      <span style={{ color: 'oklch(0.55 0.19 25)' }}>Missing Keywords</span>
+                      <XCircle size={18} className="text-foreground" />
+                      <span className="text-foreground">Missing Keywords</span>
                     </p>
                     <div className="flex flex-wrap gap-1.5">
                       {(selected.keywordsMissing || []).slice(0, 6).map((kw) => (
@@ -304,7 +303,7 @@ const chartColors = getChartColors();
                     </h4>
                     {expanded[key] ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                   </button>
-                  {(expanded[key] || true) && (
+                  {expanded[key] && (
                     <ul className="mt-3 space-y-2">
                       {(items || []).map((item, i) => (
                         <li key={i} className="flex items-start gap-2.5 text-sm p-2.5 rounded-lg"

@@ -56,11 +56,19 @@ const Layout = ({ children }) => {
   const currentPage = allNavItems.find(n => n.path === location.pathname);
   const pageLabel = currentPage?.label || (location.pathname === '/profile' ? 'Profile' : 'Home');
 
+  React.useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') setIsMobileMenuOpen(false);
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, []);
+
   const NavLink = ({ item }) => (
     <Link
       to={item.path}
       onClick={() => setIsMobileMenuOpen(false)}
-      className={`sidebar-link ${isActive(item.path) ? 'sidebar-link-active' : ''}`}
+      className={`sidebar-link touch-target ${isActive(item.path) ? 'sidebar-link-active' : ''}`}
       aria-current={isActive(item.path) ? 'page' : undefined}
     >
       <item.icon size={20} className="shrink-0" />
@@ -69,7 +77,10 @@ const Layout = ({ children }) => {
   );
 
   return (
-    <div className="flex h-screen overflow-hidden" style={{ background: 'var(--background)' }}>
+    <div 
+      className="grid h-screen overflow-hidden grid-cols-1 lg:grid-cols-[var(--sidebar-width)_1fr] transition-all duration-300 ease-in-out" 
+      style={{ background: 'var(--background)', '--sidebar-width': '264px' }}
+    >
       
       {/* 1. Mobile Overlay — show only when sidebar open on mobile */}
       {isMobileMenuOpen && (
@@ -88,21 +99,21 @@ const Layout = ({ children }) => {
       {/* 2. Sidebar Container */}
       <aside 
         style={{
-          width: '260px',
-          height: '100vh',
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          zIndex: 50,
           background: 'var(--sidebar)', 
           borderRight: '1px solid var(--sidebar-border)',
-          transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s ease',
         }}
-        className={`flex flex-col lg:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        className={`
+          flex flex-col z-50 w-[var(--sidebar-width)]
+          fixed inset-y-0 left-0 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+          lg:sticky lg:top-0 lg:col-start-1 lg:h-screen lg:translate-x-0 lg:overflow-y-auto
+        `}
+        aria-modal="true"
+        role="dialog"
       >
         {/* Logo */}
         <div className="px-5 py-6 bg-gradient-to-r from-[rgba(110,86,207,0.06)] to-transparent" style={{ borderBottom: '1px solid var(--sidebar-border)' }}>
-          <Link to="/dashboard" className="flex items-center gap-3 group">
+          <Link to="/dashboard" className="flex items-center gap-3 group touch-target">
             <div className="relative group/logo">
               <div className="w-8 h-8 rounded-lg flex items-center justify-center shadow-md transition-transform group-hover/logo:scale-110" 
                    style={{ backgroundColor: 'var(--primary)' }}>
@@ -144,7 +155,7 @@ const Layout = ({ children }) => {
                onMouseEnter={e => e.currentTarget.style.background = 'var(--sidebar-accent)'}
                onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
           >
-            <Link to="/profile" className="flex items-center gap-3 flex-1 min-w-0">
+            <Link to="/profile" className="flex items-center gap-3 flex-1 min-w-0 touch-target">
               <div className="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-xs shrink-0"
                    style={{ backgroundColor: 'var(--primary)' }}>
                 {user?.name?.charAt(0)?.toUpperCase() || 'U'}
@@ -162,7 +173,7 @@ const Layout = ({ children }) => {
               onClick={logout}
               title="Sign Out"
               aria-label="Sign Out"
-              className="p-1.5 rounded-lg transition-colors shrink-0 text-muted-foreground hover:text-red-500 hover:bg-red-50 transition-all duration-200 active:scale-[0.97] hover:-translate-y-px"
+              className="p-1.5 rounded-lg transition-colors shrink-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all duration-200 active:scale-[0.97] touch-target"
             >
               <LogOut size={20} />
             </button>
@@ -170,48 +181,39 @@ const Layout = ({ children }) => {
         </div>
       </aside>
 
-      {/* 3. Main content — on mobile takes full width */}
-      <div 
-        style={{
-          marginLeft: 0,
-          flex: 1,
-          minWidth: 0,
-        }}
-        className="lg:ml-[260px] flex flex-col overflow-hidden"
-      >
+      {/* 3. Main content */}
+      <div className="flex flex-col overflow-hidden lg:col-start-2 min-w-0">
         {/* ─── Top Header ─── */}
         <header
-          className="h-14 shrink-0 sticky top-0 z-40 bg-[var(--background)]/80 backdrop-blur-xl border-b border-[var(--border)] shadow-[0_1px_0_rgba(100,74,64,0.08)] w-full"
+          className="h-14 shrink-0 sticky top-0 z-40 bg-[var(--background)]/80 backdrop-blur-xl border-b border-[var(--border)] shadow-[0_1px_0_rgba(0,0,0,0.05)] w-full safe-top"
         >
-          <div className="max-w-screen-xl mx-auto px-6 h-full flex items-center justify-between">
-            {/* Left: Mobile toggle + Breadcrumb */}
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
+            {/* Left Side */}
             <div className="flex items-center gap-3 text-sm">
-              <button
-                className="lg:hidden p-2 rounded-lg transition-colors hover:bg-accent transition-all duration-200 active:scale-[0.97] hover:-translate-y-px flex items-center justify-center"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                style={{
-                  background: 'transparent',
-                  border: 'none',
-                  cursor: 'pointer',
-                  color: 'var(--foreground)',
-                }}
-                aria-label="Toggle sidebar"
-              >
-                {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-              </button>
+              {/* Mobile: Logo */}
+              <div className="lg:hidden flex items-center">
+                <Link to="/dashboard" className="flex items-center gap-2 touch-target">
+                  <div className="w-7 h-7 rounded-lg flex items-center justify-center shadow-md bg-[var(--primary)]">
+                    <LogoIcon size={16} className="text-[var(--primary-foreground)]" />
+                  </div>
+                  <span className="text-[15px] font-black tracking-tighter leading-none flex items-baseline text-[var(--foreground)]">
+                    Resume<span className="text-[var(--primary)] italic font-black text-[16px] px-[1px]">X</span>pert
+                  </span>
+                </Link>
+              </div>
 
-              {/* Breadcrumb */}
-              <div className="flex items-center gap-1.5" style={{ color: 'var(--muted-foreground)' }}>
-                <span className="hidden sm:inline">Home</span>
-                <ChevronRight size={20} className="hidden sm:inline opacity-60" />
+              {/* Desktop: Breadcrumb */}
+              <div className="hidden lg:flex items-center gap-1.5 text-sm" style={{ color: 'var(--muted-foreground)' }}>
+                <span>Home</span>
+                <ChevronRight size={16} className="opacity-60" />
                 <span className="font-semibold" style={{ color: 'var(--foreground)' }}>
                   {pageLabel}
                 </span>
               </div>
             </div>
 
-            {/* Right: Search + Bell + Avatar */}
-            <div className="flex items-center gap-2">
+            {/* Right: Search + Bell + Avatar + Mobile Toggle */}
+            <div className="flex items-center gap-1 sm:gap-2">
               {/* Search button — hide on small screens */}
               <div className="hidden md:flex">
                 <button
@@ -230,13 +232,13 @@ const Layout = ({ children }) => {
 
               {/* Notification Bell */}
               <button
-                className="relative p-2 rounded-lg transition-colors hover:bg-accent transition-all duration-200 active:scale-[0.97] hover:-translate-y-px"
+                className="hidden sm:flex relative p-2 rounded-lg transition-colors hover:bg-accent transition-all duration-200 active:scale-[0.97] hover:-translate-y-px touch-target"
                 style={{ color: 'var(--muted-foreground)' }}
                 aria-label="Notifications"
               >
                 <Bell size={20} />
                 <span
-                  className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full border-2"
+                  className="absolute top-2 right-2 w-2 h-2 rounded-full border-2"
                   style={{
                     backgroundColor: 'var(--primary)',
                     borderColor: 'var(--background)'
@@ -256,13 +258,27 @@ const Layout = ({ children }) => {
               >
                 {user?.name?.charAt(0)?.toUpperCase() || 'U'}
               </Link>
+
+              {/* Mobile Toggle (Hamburger) */}
+              <button
+                className="lg:hidden p-2 ml-1 rounded-lg transition-colors hover:bg-accent transition-all duration-200 active:scale-[0.97] flex items-center justify-center touch-target"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  color: 'var(--foreground)',
+                }}
+                aria-label="Toggle sidebar"
+              >
+                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
             </div>
           </div>
         </header>
 
         {/* ─── Page Content ─── */}
         <main className="flex-1 overflow-y-auto min-h-screen page-wrapper">
-          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-12">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-20 lg:pb-12">
             {children}
           </div>
         </main>

@@ -390,26 +390,27 @@ const ResumeBuilderPage = () => {
       </div>
 
       {/* Edit/Preview — Segmented Control (mobile only) */}
-      <div className="inline-flex lg:hidden rounded-xl p-1" style={{ background: 'var(--muted)' }}>
-        {[{ id: 'edit', label: 'Edit', icon: Edit }, { id: 'preview', label: 'Preview', icon: Eye }].map((t) => (
-          <button key={t.id} onClick={() => setTab(t.id)}
-            className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium transition-all"
-            style={{
-              background: tab === t.id ? 'var(--card)' : 'transparent',
-              color: tab === t.id ? 'var(--foreground)' : 'var(--muted-foreground)',
-              boxShadow: tab === t.id ? 'var(--shadow-sm)' : 'none'
-            }}
-          >
-            <t.icon size={15} /> {t.label}
-          </button>
-        ))}
+      <div className="sticky top-[60px] z-30 flex justify-center lg:hidden bg-[var(--background)]/90 backdrop-blur-md py-3 border-b border-[var(--border)] -mx-4 px-4 mb-4 shadow-sm">
+        <div className="inline-flex rounded-xl p-1 w-full max-w-sm" style={{ background: 'var(--muted)' }}>
+          {[{ id: 'edit', label: 'Edit Info', icon: Edit }, { id: 'preview', label: 'Preview PDF', icon: Eye }].map((t) => (
+            <button key={t.id} onClick={() => setTab(t.id)}
+              className="flex-1 flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-bold transition-all touch-target"
+              style={{
+                background: tab === t.id ? 'var(--card)' : 'transparent',
+                color: tab === t.id ? 'var(--foreground)' : 'var(--muted-foreground)',
+                boxShadow: tab === t.id ? 'var(--shadow-sm)' : 'none'
+              }}
+            >
+              <t.icon size={18} /> {t.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         {/* Edit Form */}
-        {(tab === 'edit' || window.innerWidth >= 1024) && (
-          <div className={`space-y-4 ${tab === 'preview' ? 'hidden lg:block' : ''}`}>
-            <div className="card space-y-4">
+        <div className={`space-y-4 ${tab === 'preview' ? 'hidden lg:block' : ''}`}>
+          <div className="card space-y-4">
               <h3 className="section-title pb-2" style={{ borderBottom: '1px solid var(--border)' }}>Personal Info</h3>
               {[
                 { field: 'name', label: 'Full Name', placeholder: 'John Doe' },
@@ -450,32 +451,32 @@ const ResumeBuilderPage = () => {
               </div>
               
               {data.experience.map((exp, i) => (
-                <div key={i} className="p-4 bg-gray-50/50 rounded-xl space-y-3 relative group border border-transparent hover:border-border transition-all">
+                <div key={i} className="p-4 bg-muted/50 rounded-xl space-y-3 relative group border border-transparent hover:border-border transition-all">
                   <button 
                     onClick={() => update('experience', data.experience.filter((_, idx) => idx !== i))}
-                    className="absolute top-2 right-2 p-1 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute top-2 right-2 p-1 text-muted-foreground hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     <X size={18} />
                   </button>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="text-[10px] uppercase font-bold text-gray-400 ml-1">Job Title</label>
+                      <label className="text-[10px] uppercase font-bold text-muted-foreground ml-1">Job Title</label>
                       <input className="input !py-2 !px-3" placeholder="Software Engineer"
                         value={exp.role} onChange={(e) => { const updated = [...data.experience]; updated[i].role = e.target.value; update('experience', updated); }} />
                     </div>
                     <div>
-                      <label className="text-[10px] uppercase font-bold text-gray-400 ml-1">Company</label>
+                      <label className="text-[10px] uppercase font-bold text-muted-foreground ml-1">Company</label>
                       <input className="input !py-2 !px-3" placeholder="Google"
                         value={exp.company} onChange={(e) => { const updated = [...data.experience]; updated[i].company = e.target.value; update('experience', updated); }} />
                     </div>
                   </div>
                   <div>
-                    <label className="text-[10px] uppercase font-bold text-gray-400 ml-1">Duration</label>
+                    <label className="text-[10px] uppercase font-bold text-muted-foreground ml-1">Duration</label>
                     <input className="input !py-2 !px-3" placeholder="2021 - Present"
                       value={exp.duration} onChange={(e) => { const updated = [...data.experience]; updated[i].duration = e.target.value; update('experience', updated); }} />
                   </div>
                   <div>
-                    <label className="text-[10px] uppercase font-bold text-gray-400 ml-1">Description</label>
+                    <label className="text-[10px] uppercase font-bold text-muted-foreground ml-1">Description</label>
                     <textarea className="input !py-2 !px-3 resize-none" rows={2} placeholder="Key achievements..."
                       value={exp.desc} onChange={(e) => { const updated = [...data.experience]; updated[i].desc = e.target.value; update('experience', updated); }} />
                   </div>
@@ -493,26 +494,26 @@ const ResumeBuilderPage = () => {
               </div>
 
               {data.education.map((edu, i) => (
-                <div key={i} className="p-4 bg-gray-50/50 rounded-xl space-y-3 relative group border border-transparent hover:border-border transition-all">
+                <div key={i} className="p-4 bg-muted/50 rounded-xl space-y-3 relative group border border-transparent hover:border-border transition-all">
                   <button 
                     onClick={() => update('education', data.education.filter((_, idx) => idx !== i))}
-                    className="absolute top-2 right-2 p-1 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute top-2 right-2 p-1 text-muted-foreground hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     <X size={18} />
                   </button>
                   <div>
-                    <label className="text-[10px] uppercase font-bold text-gray-400 ml-1">Degree</label>
+                    <label className="text-[10px] uppercase font-bold text-muted-foreground ml-1">Degree</label>
                     <input className="input !py-2 !px-3" placeholder="B.S. Computer Science"
                       value={edu.degree} onChange={(e) => { const updated = [...data.education]; updated[i].degree = e.target.value; update('education', updated); }} />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="text-[10px] uppercase font-bold text-gray-400 ml-1">School</label>
+                      <label className="text-[10px] uppercase font-bold text-muted-foreground ml-1">School</label>
                       <input className="input !py-2 !px-3" placeholder="MIT"
                         value={edu.school} onChange={(e) => { const updated = [...data.education]; updated[i].school = e.target.value; update('education', updated); }} />
                     </div>
                     <div>
-                      <label className="text-[10px] uppercase font-bold text-gray-400 ml-1">Year</label>
+                      <label className="text-[10px] uppercase font-bold text-muted-foreground ml-1">Year</label>
                       <input className="input !py-2 !px-3" placeholder="2020"
                         value={edu.year} onChange={(e) => { const updated = [...data.education]; updated[i].year = e.target.value; update('education', updated); }} />
                     </div>
@@ -521,26 +522,25 @@ const ResumeBuilderPage = () => {
               ))}
             </div>
           </div>
-        )}
 
         {/* Preview — Paper effect, sticky */}
-        {(tab === 'preview' || window.innerWidth >= 1024) && (
-          <div className={`${tab === 'edit' ? 'hidden lg:block' : ''}`}>
-            <div className="sticky top-20">
-              <div className="overflow-hidden rounded-lg bg-white"
+        <div className={`${tab === 'edit' ? 'hidden lg:block' : ''}`}>
+          <div className="lg:sticky lg:top-20">
+            <div className="overflow-x-auto scroll-x-mobile pb-4 w-[calc(100vw-32px)] lg:w-auto -mx-4 px-4 lg:mx-0 lg:px-0">
+              <div className="overflow-hidden rounded-lg bg-card min-w-[700px] lg:min-w-0"
                    style={{ boxShadow: '0 4px 6px -1px rgba(0,0,0,0.07), 0 20px 50px -10px rgba(0,0,0,0.15)', border: '1px solid var(--border)', minHeight: '850px' }}>
-                <div ref={previewRef} className="bg-white">
+                <div ref={previewRef} className="bg-card w-full h-full">
                   <TemplatePreview data={data} />
                 </div>
               </div>
-              <div className="flex justify-center mt-4">
-                <button onClick={downloadPDF} className="btn-secondary flex items-center gap-2">
-                  <Download size={18} /> Download PDF
-                </button>
-              </div>
+            </div>
+            <div className="flex justify-center mt-4 mb-8 lg:mb-0 relative z-10">
+              <button onClick={downloadPDF} className="btn-secondary flex items-center justify-center gap-2 touch-target w-full sm:w-auto">
+                <Download size={18} /> Download PDF
+              </button>
             </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

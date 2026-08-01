@@ -75,7 +75,7 @@ const ScreeningPage = () => {
       case 'rejected':
         return { label: 'Not a Match', icon: XCircle, color: 'text-red-600', bg: 'bg-red-50', border: 'border-red-200', gradient: 'from-red-500 to-rose-600' };
       default:
-        return { label: 'Pending', icon: Eye, color: 'text-gray-600', bg: 'bg-gray-50', border: 'border-gray-200', gradient: 'from-gray-500 to-gray-600' };
+        return { label: 'Pending', icon: Eye, color: 'text-muted-foreground', bg: 'bg-muted', border: 'border-border', gradient: 'from-gray-500 to-gray-600' };
     }
   };
 
@@ -128,11 +128,11 @@ const ScreeningPage = () => {
                     ))}
                   </select>
                 ) : (
-                  <div className="flex items-start gap-2 p-3 rounded-lg" style={{ background: 'oklch(0.98 0.04 85)', border: '1px solid oklch(0.88 0.07 85)' }}>
-                    <AlertTriangle size={18} className="mt-0.5 shrink-0" style={{ color: 'oklch(0.55 0.13 85)' }} />
+                  <div className="flex items-start gap-2 p-3 rounded-lg bg-muted border border-border text-muted-foreground">
+                    <AlertTriangle size={18} className="mt-0.5 shrink-0 text-foreground" />
                     <div>
-                      <p className="text-sm font-medium" style={{ color: 'oklch(0.35 0.08 85)' }}>No resumes uploaded yet</p>
-                      <p className="text-xs mt-0.5" style={{ color: 'oklch(0.50 0.10 85)' }}>Upload a resume first for auto-detection.</p>
+                      <p className="text-sm font-medium text-foreground">No resumes uploaded yet</p>
+                      <p className="text-xs mt-0.5 text-foreground">Upload a resume first for auto-detection.</p>
                     </div>
                   </div>
                 )}
@@ -226,7 +226,7 @@ const ScreeningPage = () => {
                           <v.icon size={22} className={v.color} />
                         </div>
                         <div>
-                          <p className="text-sm text-gray-500 font-medium">Screening Verdict</p>
+                          <p className="text-sm text-muted-foreground font-medium">Screening Verdict</p>
                           <p className={`text-2xl font-black ${v.color}`}>{v.label}</p>
                         </div>
                       </div>
@@ -234,7 +234,7 @@ const ScreeningPage = () => {
                         <ScoreCircle score={result.matchScore || 0} size={100} strokeWidth={8} />
                       </div>
                     </div>
-                    <p className="mt-4 text-gray-600 text-sm leading-relaxed bg-gray-50 p-4 rounded-xl">
+                    <p className="mt-4 text-muted-foreground text-sm leading-relaxed bg-muted p-4 rounded-xl">
                       {result.summary}
                     </p>
                   </div>
@@ -244,7 +244,7 @@ const ScreeningPage = () => {
               {/* Skills Analysis */}
               {result.skillsAnalysis && (
                 <div className="card">
-                  <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  <h3 className="font-bold text-foreground mb-4 flex items-center gap-2">
                     <Zap size={18} className="text-amber-500" /> Skills Analysis
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -290,10 +290,10 @@ const ScreeningPage = () => {
                   </h3>
                   <div className="space-y-3">
                     {result.matchedRequirements.map((req, i) => (
-                      <div key={i} className="flex items-start justify-between gap-3 p-3 bg-gray-50 rounded-xl">
+                      <div key={i} className="flex items-start justify-between gap-3 p-3 bg-muted rounded-xl">
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-semibold text-gray-800">{req.requirement}</p>
-                          <p className="text-xs text-gray-500 mt-0.5">{req.evidence}</p>
+                          <p className="text-sm font-semibold text-foreground">{req.requirement}</p>
+                          <p className="text-xs text-muted-foreground mt-0.5">{req.evidence}</p>
                         </div>
                         {getStatusBadge(req.status)}
                       </div>
@@ -306,12 +306,12 @@ const ScreeningPage = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 {result.strengths?.length > 0 && (
                   <div className="card">
-                    <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <h3 className="font-bold text-foreground mb-3 flex items-center gap-2">
                       <TrendingUp size={18} className="text-green-500" /> Strengths
                     </h3>
                     <ul className="space-y-2">
                       {result.strengths.map((s, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                        <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
                           <CheckCircle2 size={18} className="text-green-500 mt-0.5 flex-shrink-0" /> {s}
                         </li>
                       ))}
@@ -320,12 +320,12 @@ const ScreeningPage = () => {
                 )}
                 {result.redFlags?.length > 0 && (
                   <div className="card">
-                    <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <h3 className="font-bold text-foreground mb-3 flex items-center gap-2">
                       <AlertTriangle size={18} className="text-red-500" /> Red Flags
                     </h3>
                     <ul className="space-y-2">
                       {result.redFlags.map((s, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                        <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
                           <XCircle size={18} className="text-red-400 mt-0.5 flex-shrink-0" /> {s}
                         </li>
                       ))}
@@ -343,15 +343,15 @@ const ScreeningPage = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
                     <div className="rounded-xl p-4" style={{ background: 'color-mix(in srgb, var(--primary) 6%, var(--muted))' }}>
                       <p className="text-2xl font-black" style={{ color: 'var(--primary)' }}>{result.experienceMatch.requiredYears || '?'}</p>
-                      <p className="text-xs text-gray-500 mt-1">Required Years</p>
+                      <p className="text-xs text-muted-foreground mt-1">Required Years</p>
                     </div>
                     <div className="bg-blue-50 rounded-xl p-4">
                       <p className="text-2xl font-black text-blue-600">{result.experienceMatch.estimatedYears || '?'}</p>
-                      <p className="text-xs text-gray-500 mt-1">Your Experience</p>
+                      <p className="text-xs text-muted-foreground mt-1">Your Experience</p>
                     </div>
                     <div className="bg-indigo-50 rounded-xl p-4">
                       <p className="text-2xl font-black text-indigo-600">{result.experienceMatch.relevanceScore || 0}%</p>
-                      <p className="text-xs text-gray-500 mt-1">Relevance</p>
+                      <p className="text-xs text-muted-foreground mt-1">Relevance</p>
                     </div>
                   </div>
                 </div>
@@ -360,13 +360,13 @@ const ScreeningPage = () => {
               {/* Recommendation & Interview Focus */}
               {result.recommendation && (
                 <div className="card border-l-4" style={{ borderLeftColor: 'var(--primary)' }}>
-                  <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
+                  <h3 className="font-bold text-foreground mb-2 flex items-center gap-2">
                     <Sparkles size={18} className="text-indigo-500" /> AI Recommendation
                   </h3>
-                  <p className="text-sm text-gray-700 leading-relaxed">{result.recommendation}</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{result.recommendation}</p>
                   {result.interviewFocus?.length > 0 && (
-                    <div className="mt-4 pt-3 border-t border-gray-100">
-                      <p className="text-xs font-semibold text-gray-500 uppercase mb-2">Interview Focus Areas</p>
+                    <div className="mt-4 pt-3 border-t border-border">
+                      <p className="text-xs font-semibold text-muted-foreground uppercase mb-2">Interview Focus Areas</p>
                       <div className="flex flex-wrap gap-2">
                         {result.interviewFocus.map((area, i) => (
                           <span key={i} className="bg-indigo-50 text-indigo-700 text-xs px-3 py-1.5 rounded-lg font-medium flex items-center gap-1">

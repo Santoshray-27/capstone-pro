@@ -39,8 +39,8 @@ const FeedbackPage = () => {
       <div className="max-w-lg mx-auto">
         <div className="card text-center py-12">
           <div className="text-5xl mb-4">🙏</div>
-          <h2 className="text-2xl font-black text-gray-900 mb-2">Thank You!</h2>
-          <p className="text-gray-500 mb-6">Your feedback helps us improve SmartResume AI for everyone.</p>
+          <h2 className="text-2xl font-black text-foreground mb-2">Thank You!</h2>
+          <p className="text-muted-foreground mb-6">Your feedback helps us improve SmartResume AI for everyone.</p>
           <button onClick={() => { setSubmitted(false); setForm({ type: 'platform', title: '', message: '', rating: 0 }); }}
             className="btn-secondary">Submit Another</button>
         </div>
@@ -51,18 +51,18 @@ const FeedbackPage = () => {
   return (
     <div className="max-w-xl mx-auto space-y-6">
       <div>
-        <h2 className="text-2xl font-black text-gray-900">Share Feedback</h2>
-        <p className="text-gray-500 text-sm mt-1">Help us make SmartResume AI better for everyone</p>
+        <h2 className="text-2xl font-black text-foreground">Share Feedback</h2>
+        <p className="text-muted-foreground text-sm mt-1">Help us make SmartResume AI better for everyone</p>
       </div>
 
       <form onSubmit={submit} className="card space-y-5">
         {/* Type */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Feedback Type</label>
+          <label className="block text-sm font-semibold text-muted-foreground mb-2">Feedback Type</label>
           <div className="grid grid-cols-3 gap-2">
             {TYPES.map((t) => (
               <button key={t.value} type="button" onClick={() => setForm({ ...form, type: t.value })}
-                className={`p-2 rounded-xl text-xs font-semibold border-2 transition-all text-center ${form.type === t.value ? 'border-blue-600 bg-blue-50 text-blue-700' : 'border-gray-200 text-gray-600 hover:border-gray-300'}`}>
+                className={`p-2 rounded-xl text-xs font-semibold border-2 transition-all text-center ${form.type === t.value ? 'border-blue-600 bg-blue-50 text-blue-700' : 'border-border text-muted-foreground hover:border-border'}`}>
                 {t.label}
               </button>
             ))}
@@ -71,7 +71,7 @@ const FeedbackPage = () => {
 
         {/* Rating */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Rating (optional)</label>
+          <label className="block text-sm font-semibold text-muted-foreground mb-2">Rating (optional)</label>
           <div className="flex gap-2">
             {[1, 2, 3, 4, 5].map((star) => (
               <button key={star} type="button" onClick={() => setForm({ ...form, rating: star })}>
@@ -83,14 +83,14 @@ const FeedbackPage = () => {
 
         {/* Title */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1.5">Title *</label>
+          <label className="block text-sm font-semibold text-muted-foreground mb-1.5">Title *</label>
           <input className="input" placeholder="Brief summary of your feedback"
             value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required />
         </div>
 
         {/* Message */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1.5">Message *</label>
+          <label className="block text-sm font-semibold text-muted-foreground mb-1.5">Message *</label>
           <textarea className="input resize-none" rows={5}
             placeholder="Tell us about your experience, what you'd like to see improved, or any issues you encountered..."
             value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} required />

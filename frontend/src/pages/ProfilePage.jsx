@@ -70,8 +70,8 @@ const ProfilePage = () => {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div>
-        <h2 className="text-2xl font-black text-gray-900">Profile Settings</h2>
-        <p className="text-gray-500 text-sm mt-1">Manage your account information</p>
+        <h2 className="text-2xl font-black text-foreground">Profile Settings</h2>
+        <p className="text-muted-foreground text-sm mt-1">Manage your account information</p>
       </div>
 
       {/* Avatar */}
@@ -80,8 +80,8 @@ const ProfilePage = () => {
           {user?.name?.charAt(0)?.toUpperCase()}
         </div>
         <div>
-          <p className="font-bold text-gray-900 text-lg">{user?.name}</p>
-          <p className="text-gray-500 text-sm">{user?.email}</p>
+          <p className="font-bold text-foreground text-lg">{user?.name}</p>
+          <p className="text-muted-foreground text-sm">{user?.email}</p>
           <span className="badge badge-info mt-1 capitalize">
             {user?.role}
           </span>
@@ -90,9 +90,9 @@ const ProfilePage = () => {
 
       {/* Profile Form */}
       <form onSubmit={saveProfile} className="card space-y-4">
-        <h3 className="font-bold text-gray-900 flex items-center gap-2"><User size={18} /> Personal Info</h3>
+        <h3 className="font-bold text-foreground flex items-center gap-2"><User size={18} /> Personal Info</h3>
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1.5">Full Name</label>
+          <label className="block text-sm font-semibold text-muted-foreground mb-1.5">Full Name</label>
           <input className="input" value={form.name} onChange={(e) => setForm({...form, name: e.target.value})} />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -105,19 +105,19 @@ const ProfilePage = () => {
             { label: 'Years Experience', field: 'experience', placeholder: '0', type: 'number' }
           ].map((f) => (
             <div key={f.field}>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">{f.label}</label>
+              <label className="block text-sm font-semibold text-muted-foreground mb-1.5">{f.label}</label>
               <input className="input" type={f.type || 'text'} placeholder={f.placeholder}
                 value={form.profile[f.field]} onChange={(e) => updateProfile(f.field, e.target.value)} />
             </div>
           ))}
         </div>
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1.5">Bio</label>
+          <label className="block text-sm font-semibold text-muted-foreground mb-1.5">Bio</label>
           <textarea className="input resize-none" rows={3} placeholder="Tell us about yourself..."
             value={form.profile.bio} onChange={(e) => updateProfile('bio', e.target.value)} />
         </div>
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1.5">Skills (comma separated)</label>
+          <label className="block text-sm font-semibold text-muted-foreground mb-1.5">Skills (comma separated)</label>
           <input className="input" placeholder="React, Node.js, Python..."
             value={form.profile.skills} onChange={(e) => updateProfile('skills', e.target.value)} />
         </div>
@@ -128,13 +128,13 @@ const ProfilePage = () => {
 
       {/* Change Password */}
       <form onSubmit={changePassword} className="card space-y-4">
-        <h3 className="font-bold text-gray-900 flex items-center gap-2"><Lock size={18} /> Change Password</h3>
+        <h3 className="font-bold text-foreground flex items-center gap-2"><Lock size={18} /> Change Password</h3>
         {[
           { label: 'Current Password', field: 'currentPassword' },
           { label: 'New Password', field: 'newPassword' }
         ].map((f) => (
           <div key={f.field}>
-            <label className="block text-sm font-semibold text-gray-700 mb-1.5">{f.label}</label>
+            <label className="block text-sm font-semibold text-muted-foreground mb-1.5">{f.label}</label>
             <input type="password" className="input" placeholder="••••••••"
               value={pwdForm[f.field]} onChange={(e) => setPwdForm({...pwdForm, [f.field]: e.target.value})} required />
           </div>
@@ -146,16 +146,16 @@ const ProfilePage = () => {
 
       {/* Stats */}
       <div className="card">
-        <h3 className="font-bold text-gray-900 mb-4">Account Stats</h3>
+        <h3 className="font-bold text-foreground mb-4">Account Stats</h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
           {[
             { label: 'Resumes', value: user?.stats?.resumesUploaded || 0 },
             { label: 'Analyses', value: user?.stats?.analysisCount || 0 },
             { label: 'Interviews', value: user?.stats?.interviewsCompleted || 0 }
           ].map((s) => (
-            <div key={s.label} className="bg-gray-50 rounded-xl p-3">
+            <div key={s.label} className="bg-muted rounded-xl p-3">
               <p className="text-2xl font-black text-blue-600">{s.value}</p>
-              <p className="text-xs text-gray-500 font-medium">{s.label}</p>
+              <p className="text-xs text-muted-foreground font-medium">{s.label}</p>
             </div>
           ))}
         </div>

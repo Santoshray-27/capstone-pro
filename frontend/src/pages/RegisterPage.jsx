@@ -48,7 +48,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-white flex overflow-hidden font-['Inter',_sans-serif]">
+    <div className="min-h-screen w-full bg-card flex overflow-hidden font-['Inter',_sans-serif]">
       {/* Left Side: Auth Form (60%) */}
       <div className="w-full lg:w-[60%] flex flex-col p-6 sm:p-8 md:p-12 relative overflow-y-auto">
         {/* Logo Area */}
@@ -79,7 +79,7 @@ const RegisterPage = () => {
               <div>
                 <label className="text-[14px] font-medium text-[var(--foreground)] mb-2 block">Full Name</label>
                 <div className="relative group">
-                  <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[var(--primary)] transition-colors" size={18} />
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-[var(--primary)] transition-colors" size={18} />
                   <input
                     type="text"
                     className="input pl-11"
@@ -94,7 +94,7 @@ const RegisterPage = () => {
               <div>
                 <label className="text-[14px] font-medium text-[var(--foreground)] mb-2 block">Email Address</label>
                 <div className="relative group">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[var(--primary)] transition-colors" size={18} />
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-[var(--primary)] transition-colors" size={18} />
                   <input
                     type="email"
                     className="input pl-11"
@@ -109,7 +109,7 @@ const RegisterPage = () => {
               <div>
                 <label className="text-[14px] font-medium text-[var(--foreground)] mb-2 block">Password</label>
                 <div className="relative group">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[var(--primary)] transition-colors" size={18} />
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-[var(--primary)] transition-colors" size={18} />
                   <input
                     type={showPwd ? 'text' : 'password'}
                     className="input pl-11 pr-12"
@@ -119,7 +119,7 @@ const RegisterPage = () => {
                     required
                   />
                   <button type="button" onClick={() => setShowPwd(!showPwd)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[var(--foreground)] p-1">
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-[var(--foreground)] p-1">
                     {showPwd ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
@@ -140,7 +140,7 @@ const RegisterPage = () => {
                 onClick={handleGuestLogin}
                 type="button"
                 disabled={guestLoading || loading}
-                className="flex items-center gap-2 text-[14px] font-semibold text-gray-400 hover:text-[var(--foreground)] transition-colors py-1 px-4 rounded-lg hover:bg-gray-50"
+                className="flex items-center gap-2 text-[14px] font-semibold text-muted-foreground hover:text-[var(--foreground)] transition-colors py-1 px-4 rounded-lg hover:bg-muted"
               >
                 {guestLoading ? <Loader size={16} className="animate-spin" /> : <Users size={18} />}
                 {guestLoading ? 'Opening Workspace...' : 'Explore as a Guest'}
@@ -150,7 +150,7 @@ const RegisterPage = () => {
         </div>
 
         {/* Footer Area */}
-        <div className="flex justify-between items-center text-[11px] font-medium text-gray-400 mt-auto">
+        <div className="flex justify-between items-center text-[11px] font-medium text-muted-foreground mt-auto">
           <p>© 2025 ResumeXpert AI</p>
           <div className="flex gap-6">
             <a href="#" className="hover:text-[var(--primary)] transition-colors">Privacy Policy</a>
@@ -159,13 +159,13 @@ const RegisterPage = () => {
       </div>
 
       {/* Right Side: Visual Panel (40%) */}
-      <div className="hidden lg:flex lg:w-[40%] relative overflow-hidden bg-white">
+      <div className="hidden lg:flex lg:w-[40%] relative overflow-hidden bg-card">
         <div className="absolute inset-0 m-4 rounded-[40px] overflow-hidden flex flex-col items-center justify-center text-white p-12 shadow-2xl"
              style={{ background: 'linear-gradient(135deg, var(--primary) 0%, #FF8A65 100%)' }}>
           
           {/* Abstract blobs */}
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
-          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-card/10 rounded-full blur-3xl" />
+          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-card/10 rounded-full blur-3xl" />
           
           <div className="relative z-10 max-w-xs text-center mb-16">
             <h2 className="text-4xl font-bold leading-tight mb-6 tracking-tight">Unlock the full potential of your career.</h2>
@@ -173,30 +173,30 @@ const RegisterPage = () => {
           </div>
 
           {/* Mock Dashboard Preview */}
-          <div className="relative w-full max-w-[360px] bg-white/95 backdrop-blur-sm rounded-[32px] shadow-2xl overflow-hidden border border-white/20 scale-110">
+          <div className="relative w-full max-w-[360px] bg-card/95 backdrop-blur-sm rounded-[32px] shadow-2xl overflow-hidden border border-white/20 scale-110">
             <div className="p-6">
                {/* Mock UI Elements */}
                <div className="grid grid-cols-3 gap-3 mb-6">
-                  <div className="p-3 rounded-2xl bg-gray-50 border border-gray-100">
+                  <div className="p-3 rounded-2xl bg-muted border border-border">
                     <div className="w-7 h-7 rounded-lg bg-[var(--primary)]/10 flex items-center justify-center mb-2">
                       <BarChart3 size={18} className="text-[var(--primary)]" />
                     </div>
-                    <div className="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Match</div>
-                    <div className="text-lg font-bold text-gray-900 mt-0.5">94%</div>
+                    <div className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider">Match</div>
+                    <div className="text-lg font-bold text-foreground mt-0.5">94%</div>
                   </div>
-                  <div className="p-3 rounded-2xl bg-gray-50 border border-gray-100">
+                  <div className="p-3 rounded-2xl bg-muted border border-border">
                     <div className="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center mb-2">
                       <Zap size={18} className="text-emerald-600" />
                     </div>
-                    <div className="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Growth</div>
-                    <div className="text-lg font-bold text-gray-900 mt-0.5">Top 1%</div>
+                    <div className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider">Growth</div>
+                    <div className="text-lg font-bold text-foreground mt-0.5">Top 1%</div>
                   </div>
-                  <div className="p-3 rounded-2xl bg-gray-50 border border-gray-100">
+                  <div className="p-3 rounded-2xl bg-muted border border-border">
                     <div className="w-7 h-7 rounded-lg bg-amber-100 flex items-center justify-center mb-2">
                       <FileText size={18} className="text-amber-600" />
                     </div>
-                    <div className="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Network</div>
-                    <div className="text-lg font-bold text-gray-900 mt-0.5">500+</div>
+                    <div className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider">Network</div>
+                    <div className="text-lg font-bold text-foreground mt-0.5">500+</div>
                   </div>
                </div>
                <div className="space-y-3">
@@ -205,14 +205,14 @@ const RegisterPage = () => {
                    { role: "Product Designer", company: "Meta", match: "94%", icon: <Users size={18} className="text-blue-500" />, color: "bg-blue-50" },
                    { role: "Data Scientist", company: "Amazon", match: "89%", icon: <BarChart3 size={18} className="text-emerald-500" />, color: "bg-emerald-50" },
                  ].map((item, i) => (
-                   <div key={i} className="flex items-center justify-between p-3 rounded-2xl border border-gray-100 bg-white/80 backdrop-blur-sm hover:translate-x-1 transition-transform cursor-default">
+                   <div key={i} className="flex items-center justify-between p-3 rounded-2xl border border-border bg-card/80 backdrop-blur-sm hover:translate-x-1 transition-transform cursor-default">
                      <div className="flex items-center gap-3">
                        <div className={`w-9 h-9 rounded-xl ${item.color} flex items-center justify-center shadow-sm`}>
                          {item.icon}
                        </div>
                        <div>
-                         <div className="text-[12px] font-bold text-gray-900 leading-none mb-1">{item.role}</div>
-                         <div className="text-[10px] font-medium text-gray-400">{item.company} • 2h ago</div>
+                         <div className="text-[12px] font-bold text-foreground leading-none mb-1">{item.role}</div>
+                         <div className="text-[10px] font-medium text-muted-foreground">{item.company} • 2h ago</div>
                        </div>
                      </div>
                      <div className="flex flex-col items-end">

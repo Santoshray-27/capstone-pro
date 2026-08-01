@@ -119,8 +119,8 @@ const InterviewSessionPage = () => {
           <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <Award size={22} className="text-white" />
           </div>
-          <h2 className="text-2xl font-black text-gray-900 mb-2">Interview Complete!</h2>
-          <p className="text-gray-500 mb-6">Here's your performance summary</p>
+          <h2 className="text-2xl font-black text-foreground mb-2">Interview Complete!</h2>
+          <p className="text-muted-foreground mb-6">Here's your performance summary</p>
 
           <div className="flex justify-center mb-6">
             <ScoreCircle score={score} size={160} />
@@ -136,7 +136,7 @@ const InterviewSessionPage = () => {
           )}
 
           {summary.overallFeedback && (
-            <p className="text-gray-600 text-sm mb-6 max-w-md mx-auto">{summary.overallFeedback}</p>
+            <p className="text-muted-foreground text-sm mb-6 max-w-md mx-auto">{summary.overallFeedback}</p>
           )}
 
           {/* Strengths & Improvements */}
@@ -187,17 +187,17 @@ const InterviewSessionPage = () => {
       <div className="card">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-3">
           <div>
-            <h2 className="font-black text-gray-900">{session.jobTitle}</h2>
-            <p className="text-gray-500 text-sm">{session.company || 'Practice Session'} · {session.experienceLevel}</p>
+            <h2 className="font-black text-foreground">{session.jobTitle}</h2>
+            <p className="text-muted-foreground text-sm">{session.company || 'Practice Session'} · {session.experienceLevel}</p>
           </div>
           <div className="sm:text-right flex items-center sm:block gap-2">
-            <p className="text-sm font-semibold text-gray-900">
+            <p className="text-sm font-semibold text-foreground">
               {session.questions.filter(q => q.isAnswered).length} / {session.totalQuestions}
             </p>
-            <p className="text-xs text-gray-400">answered</p>
+            <p className="text-xs text-muted-foreground">answered</p>
           </div>
         </div>
-        <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+        <div className="h-2 bg-muted rounded-full overflow-hidden">
           <div
             className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-500"
             style={{ width: `${progress}%` }}
@@ -213,7 +213,7 @@ const InterviewSessionPage = () => {
             onClick={() => { setCurrentQ(i); setShowFeedback(q.isAnswered); setAnswer(''); }}
             className={`w-8 h-8 rounded-lg text-xs font-bold transition-all ${
               i === currentQ ? 'bg-blue-600 text-white shadow-md scale-110' :
-              q.isAnswered ? 'bg-green-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              q.isAnswered ? 'bg-green-500 text-white' : 'bg-muted text-muted-foreground hover:bg-accent'
             }`}
           >
             {i + 1}
@@ -238,19 +238,19 @@ const InterviewSessionPage = () => {
           }`}>
             {question.difficulty}
           </div>
-          <span className="ml-auto text-xs text-gray-400">Q{currentQ + 1} of {session.totalQuestions}</span>
+          <span className="ml-auto text-xs text-muted-foreground">Q{currentQ + 1} of {session.totalQuestions}</span>
         </div>
 
-        <p className="text-gray-900 font-semibold text-lg leading-relaxed mb-4">
+        <p className="text-foreground font-semibold text-lg leading-relaxed mb-4">
           {question.question}
         </p>
 
         {/* Already answered - show feedback */}
         {question.isAnswered && showFeedback ? (
           <div className="space-y-3">
-            <div className="bg-gray-50 p-3 rounded-xl">
-              <p className="text-xs font-semibold text-gray-500 mb-1">Your Answer:</p>
-              <p className="text-sm text-gray-700">{question.userAnswer}</p>
+            <div className="bg-muted p-3 rounded-xl">
+              <p className="text-xs font-semibold text-muted-foreground mb-1">Your Answer:</p>
+              <p className="text-sm text-muted-foreground">{question.userAnswer}</p>
             </div>
 
             {question.evaluation && (
@@ -261,13 +261,13 @@ const InterviewSessionPage = () => {
                   'bg-yellow-50 border border-yellow-100'
                 }`}>
                   <div className="flex items-center justify-between mb-2">
-                    <p className="font-semibold text-gray-900 text-sm">AI Evaluation</p>
+                    <p className="font-semibold text-foreground text-sm">AI Evaluation</p>
                     <span className={`text-lg font-black ${
                       question.evaluation.score >= 7 ? 'text-green-600' :
                       question.evaluation.score >= 5 ? 'text-blue-600' : 'text-yellow-600'
                     }`}>{question.evaluation.score}/10</span>
                   </div>
-                  <p className="text-sm text-gray-700">{question.evaluation.feedback}</p>
+                  <p className="text-sm text-muted-foreground">{question.evaluation.feedback}</p>
 
                   {question.evaluation.strengths?.length > 0 && (
                     <div className="mt-2">
@@ -308,21 +308,21 @@ const InterviewSessionPage = () => {
           /* Answer Input */
           !question.isAnswered && (
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Your Answer</label>
+              <label className="block text-sm font-semibold text-muted-foreground mb-2">Your Answer</label>
               
               {question.questionFormat === 'mcq' ? (
                 <div className="space-y-2 mt-3">
                   {question.options?.map((opt, idx) => (
-                    <label key={idx} className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${answer === opt ? 'bg-blue-50 border-blue-500' : 'hover:bg-gray-50 border-gray-200'}`}>
+                    <label key={idx} className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${answer === opt ? 'bg-blue-50 border-blue-500' : 'hover:bg-muted border-border'}`}>
                       <input 
                         type="radio" 
                         name={`mcq-${currentQ}`} 
                         value={opt}
                         checked={answer === opt}
                         onChange={(e) => setAnswer(e.target.value)}
-                        className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                        className="w-4 h-4 text-blue-600 border-border focus:ring-blue-500"
                       />
-                      <span className="text-sm text-gray-700">{opt}</span>
+                      <span className="text-sm text-muted-foreground">{opt}</span>
                     </label>
                   ))}
                 </div>
@@ -336,8 +336,8 @@ const InterviewSessionPage = () => {
                     onChange={(e) => setAnswer(e.target.value)}
                   />
                   <div className="flex items-center justify-between mt-2">
-                    <span className="text-xs text-gray-400">{answer.split(/\s+/).filter(Boolean).length} words</span>
-                    <span className="text-xs text-gray-400">Recommended: 100-200 words</span>
+                    <span className="text-xs text-muted-foreground">{answer.split(/\s+/).filter(Boolean).length} words</span>
+                    <span className="text-xs text-muted-foreground">Recommended: 100-200 words</span>
                   </div>
                 </>
               )}

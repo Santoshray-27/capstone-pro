@@ -121,28 +121,28 @@ const chartColors = getChartColors();
              style={{ background: 'radial-gradient(circle, white 0%, transparent 70%)' }} />
 
         <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div className="flex-1">
-            <h2 className="text-2xl font-bold tracking-tight">
-              Welcome back, {user?.name?.split(' ')[0] || 'there'}! 👋
+          <div className="flex-1 w-full">
+            <h2 className="text-[clamp(1.5rem,4vw,2rem)] font-bold tracking-tight leading-tight">
+              Welcome back, {user?.name?.split(' ')[0] || 'there'} !!
             </h2>
-            <p className="text-white/75 text-sm mt-2 max-w-md leading-relaxed">
+            <p className="text-white/80 text-sm sm:text-base mt-2 max-w-md leading-relaxed">
               {overview.totalResumes === 0
                 ? "Let's start by uploading your resume. Our AI engine will analyze your profile and surface actionable insights."
                 : `You have ${overview.totalResumes} resume${overview.totalResumes > 1 ? 's' : ''} and ${overview.totalAnalyses} analysis result${overview.totalAnalyses !== 1 ? 's' : ''}. Keep building your profile.`
               }
             </p>
-            <div className="flex flex-wrap gap-3 mt-5">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 mt-6">
               <Link to="/upload"
-                className="flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm
-                           bg-white hover:bg-white/90 transition-all active:scale-[0.98] shadow-sm"
+                className="flex items-center justify-center gap-2 px-5 py-3 md:py-2.5 rounded-xl md:rounded-lg font-bold text-sm md:text-sm
+                           bg-card hover:bg-card/90 transition-all active:scale-[0.98] shadow-sm touch-target"
                 style={{ color: 'var(--primary)' }}>
-                <Upload size={20} /> <span className="hidden xs:inline">Upload Resume</span><span className="xs:hidden">Upload</span>
+                <Upload size={20} /> Upload Resume
               </Link>
               <Link to="/interview"
-                className="flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm
-                           bg-white/15 hover:bg-white/25 text-white border border-white/25
-                           transition-all active:scale-[0.98]">
-                <MessageSquare size={20} /> <span className="hidden xs:inline">Practice Interview</span><span className="xs:hidden">Interview</span>
+                className="flex items-center justify-center gap-2 px-5 py-3 md:py-2.5 rounded-xl md:rounded-lg font-bold text-sm md:text-sm
+                           bg-card/15 hover:bg-card/25 text-white border border-white/25
+                           transition-all active:scale-[0.98] touch-target">
+                <MessageSquare size={20} /> Practice Interview
               </Link>
             </div>
           </div>
@@ -239,7 +239,7 @@ const chartColors = getChartColors();
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center py-14 px-6 rounded-2xl bg-gradient-to-br from-[#f8f7ff] to-[#eef2ff] border border-dashed border-[var(--primary)]/30 text-center h-[220px]">
-                <div className="w-14 h-14 rounded-2xl bg-white shadow-md flex items-center justify-center mb-4">
+                <div className="w-14 h-14 rounded-2xl bg-card shadow-md flex items-center justify-center mb-4">
                   <BarChart3 size={24} style={{ color: 'var(--primary)' }} />
                 </div>
                 <p className="text-base font-semibold text-[var(--foreground)]">No data yet</p>
@@ -345,27 +345,25 @@ const chartColors = getChartColors();
         </div>
 
         {/* Quick Actions */}
-        <div className="card md:col-span-2 lg:col-span-1" >
+        <div className="card md:col-span-2 lg:col-span-1 overflow-hidden" >
           <h3 className="section-title mb-4">Quick Actions</h3>
-          <div className="space-y-1.5">
+          <div className="flex md:flex-col gap-3 md:gap-1.5 scroll-x-mobile pb-4 md:pb-0 snap-x snap-mandatory -mx-2 px-2 md:mx-0 md:px-0">
             {[
               { icon: Upload, label: 'Upload Resume', desc: 'PDF or DOCX', link: '/upload' },
               { icon: BarChart3, label: 'Analyze Resume', desc: 'AI-powered scoring', link: '/analysis' },
               { icon: MessageSquare, label: 'Practice Interview', desc: 'Mock questions', link: '/interview' },
             ].map(action => (
               <Link key={action.label} to={action.link}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors group relative overflow-hidden"
-                onMouseEnter={e => e.currentTarget.style.background = 'var(--accent)'}
-                onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                className="flex items-center gap-3 p-4 md:px-3 md:py-2.5 rounded-xl transition-colors group relative overflow-hidden shrink-0 w-[75vw] sm:w-[240px] md:w-auto snap-center bg-[color-mix(in_srgb,var(--primary)_4%,transparent)] md:bg-transparent border border-[var(--primary)]/10 md:border-transparent touch-target md:hover:bg-[var(--accent)]"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out pointer-events-none" />
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors"
-                     style={{ background: 'color-mix(in srgb, var(--primary) 8%, transparent)' }}>
+                  <div className="w-10 h-10 md:w-8 md:h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors"
+                     style={{ background: 'color-mix(in srgb, var(--primary) 12%, transparent)' }}>
                   <action.icon size={20} style={{ color: 'var(--primary)' }} />
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium" style={{ color: 'var(--foreground)' }}>{action.label}</p>
-                  <p className="text-[11px]" style={{ color: 'var(--muted-foreground)' }}>{action.desc}</p>
+                  <p className="text-sm font-bold" style={{ color: 'var(--foreground)' }}>{action.label}</p>
+                  <p className="text-[11px] md:text-[11px]" style={{ color: 'var(--muted-foreground)' }}>{action.desc}</p>
                 </div>
                 <ArrowRight size={20} style={{ color: 'var(--muted-foreground)' }}
                             className="group-hover:translate-x-0.5 transition-transform" />

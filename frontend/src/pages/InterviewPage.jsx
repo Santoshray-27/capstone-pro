@@ -87,8 +87,8 @@ const InterviewPage = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-black text-gray-900">AI Mock Interview</h2>
-          <p className="text-gray-500 text-sm mt-1">Practice with our AI recruiter to sharpen your skills</p>
+          <h2 className="text-2xl font-black text-foreground">AI Mock Interview</h2>
+          <p className="text-muted-foreground text-sm mt-1">Practice with our AI recruiter to sharpen your skills</p>
         </div>
         <button onClick={() => setShowForm(!showForm)} className="btn-primary flex items-center justify-center gap-2">
           {showForm ? <><X size={18} /> Cancel</> : <><Plus size={18} /> New Session</>}
@@ -255,8 +255,7 @@ const InterviewPage = () => {
                   </div>
 
                   {session.status === 'completed' && (
-                    <div className="flex items-center gap-1.5 text-xs font-medium"
-                         style={{ color: 'oklch(0.45 0.14 145)' }}>
+                    <div className="flex items-center gap-1.5 text-xs font-medium text-foreground">
                       <CheckCircle size={18} /> Completed · Score: {session.overallScore}/100
                     </div>
                   )}

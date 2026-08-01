@@ -27,11 +27,11 @@ const JobCard = ({ job, onBookmark }) => {
 
       {/* Header & Logo */}
       <div className="flex gap-4 items-start mb-4">
-        <div className="w-12 h-12 rounded-xl border border-[var(--border)] overflow-hidden shrink-0 bg-white flex items-center justify-center p-1">
+        <div className="w-12 h-12 rounded-xl border border-[var(--border)] overflow-hidden shrink-0 bg-card flex items-center justify-center p-1">
           {job.companyLogo ? (
             <img src={job.companyLogo} alt={job.company} className="w-full h-full object-contain" />
           ) : (
-            <Briefcase size={22} className="text-gray-400" />
+            <Briefcase size={22} className="text-muted-foreground" />
           )}
         </div>
         <div className="flex-1 min-w-0">
@@ -47,7 +47,7 @@ const JobCard = ({ job, onBookmark }) => {
         {/* Bookmark Action */}
         <button 
           onClick={() => onBookmark(job.id)}
-          className="text-gray-400 hover:text-[var(--primary)] transition-colors p-2 rounded-full hover:bg-[var(--primary)]/10"
+          className="text-muted-foreground hover:text-[var(--primary)] transition-colors p-2 rounded-full hover:bg-[var(--primary)]/10"
         >
           <Bookmark size={20} />
         </button>
@@ -150,6 +150,7 @@ const JobsPage = () => {
     datePosted: 'all',
     source: '',
   });
+  const [showFilters, setShowFilters] = useState(false);
   
   // Resume Parsing State
   const [resumes, setResumes] = useState([]);
@@ -214,8 +215,17 @@ const JobsPage = () => {
   return (
     <div className="flex flex-col lg:flex-row gap-6">
       
+      {/* Mobile Filter Toggle */}
+      <button 
+        className="lg:hidden w-full py-3 bg-[var(--card)] border border-[var(--border)] rounded-xl flex items-center justify-center gap-2 font-bold shadow-sm touch-target transition-active"
+        onClick={() => setShowFilters(!showFilters)}
+      >
+        <SlidersHorizontal size={18} className="text-[var(--primary)]" />
+        {showFilters ? 'Hide Search Filters & Auto-Match' : 'Show Search Filters & Auto-Match'}
+      </button>
+
       {/* LEFT SIDEBAR: FILTERS & RESUME UPLOAD */}
-      <aside className="w-full lg:w-72 flex flex-col gap-6 shrink-0">
+      <aside className={`w-full lg:w-72 flex-col gap-6 shrink-0 ${showFilters ? 'flex' : 'hidden lg:flex'}`}>
         
         {/* Auto-Match / Resume Integration */}
         <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-sm">
